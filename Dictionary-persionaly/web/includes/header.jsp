@@ -9,7 +9,7 @@
         <div class="header-left">
             <c:choose>
                 <c:when test="${sessionScope.role == 'admin'}">
-                    <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="logo-link" onclick="scrollToTop(event)">
+                    <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="logo-link">
                         <div class="logo-icon">
                             <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
                                 <circle cx="16" cy="16" r="16" fill="#2D5A3D"/>
@@ -20,7 +20,7 @@
                     </a>
                 </c:when>
                 <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="logo-link" onclick="scrollToTop(event)">
+                    <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="logo-link">
                         <div class="logo-icon">
                             <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
                                 <circle cx="16" cy="16" r="16" fill="#2D5A3D"/>
@@ -37,10 +37,10 @@
             <c:if test="${sessionScope.user != null}">
                 <c:choose>
                     <c:when test="${sessionScope.role == 'admin'}">
-                        <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="nav-link" onclick="scrollToTop(event)">Trang chủ</a>
+                        <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="nav-link">Trang chủ</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="nav-link" onclick="scrollToTop(event)">Trang chủ</a>
+                        <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="nav-link">Trang chủ</a>
                     </c:otherwise>
                 </c:choose>
             </c:if>
@@ -202,16 +202,3 @@
     }
 </style>
 
-<script>
-    function scrollToTop(event) {
-        event.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-        // Sau khi scroll xong, chuyển trang
-        setTimeout(function() {
-            window.location.href = event.currentTarget.href;
-        }, 300);
-    }
-</script>
