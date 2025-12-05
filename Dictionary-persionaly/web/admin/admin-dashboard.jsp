@@ -28,17 +28,23 @@
             </div>
             
             <div class="dashboard-cards">
-            <div class="card">
+            <a href="${pageContext.request.contextPath}/admin/ManageWordsServlet" class="card card-clickable">
+                <div class="card-icon">📚</div>
                 <div class="card-title">Tổng số từ điển</div>
                 <div class="card-value">${totalWords != null ? totalWords : 0}</div>
-            </div>
-            <div class="card">
+                <div class="card-action">Xem chi tiết →</div>
+            </a>
+            <a href="${pageContext.request.contextPath}/admin/ApprovalListServlet" class="card card-clickable ${pendingSuggestions != null && pendingSuggestions > 0 ? 'card-alert' : ''}">
+                <div class="card-icon">✅</div>
                 <div class="card-title">Đề xuất chờ duyệt</div>
-                <div class="card-value">${pendingSuggestions != null ? pendingSuggestions : 0}</div>
-            </div>
+                <div class="card-value ${pendingSuggestions != null && pendingSuggestions > 0 ? 'card-value-alert' : ''}">${pendingSuggestions != null ? pendingSuggestions : 0}</div>
+                <div class="card-action">${pendingSuggestions != null && pendingSuggestions > 0 ? 'Cần xử lý →' : 'Xem chi tiết →'}</div>
+            </a>
             <div class="card">
+                <div class="card-icon">👥</div>
                 <div class="card-title">Tổng số users</div>
                 <div class="card-value">${totalUsers != null ? totalUsers : 0}</div>
+                <div class="card-info">Tổng số người dùng đã đăng ký</div>
             </div>
         </div>
         
