@@ -18,16 +18,9 @@
         <c:redirect url="${pageContext.request.contextPath}/login.jsp"/>
     </c:if>
     
-    <c:choose>
-        <c:when test="${totalWords == null}">
-            <jsp:useBean id="wordDAO" class="Dao.WordDAO"/>
-            <jsp:useBean id="suggestionDAO" class="Dao.WordSuggestionDAO"/>
-            <jsp:useBean id="userDAO" class="Dao.UserDAO"/>
-            <c:set var="totalWords" value="${wordDAO.countTotalWords()}"/>
-            <c:set var="pendingSuggestions" value="${suggestionDAO.countPendingSuggestions()}"/>
-            <c:set var="totalUsers" value="${userDAO.countTotalUsers()}"/>
-        </c:when>
-    </c:choose>
+    <c:if test="${totalWords == null}">
+        <c:redirect url="${pageContext.request.contextPath}/admin/AdminDashboardServlet"/>
+    </c:if>
     
     <jsp:include page="../includes/header.jsp"/>
     
@@ -35,7 +28,7 @@
         <div class="dashboard-container">
             <div class="dashboard-header">
                 <h1 class="welcome-message">Xin chào, ${sessionScope.fullName}!</h1>
-                <p style="color: #52796f; font-weight: 500;">Admin Dashboard - Quản lý từ điển</p>
+                <p style="color: #52796f; font-weight: 500;">Admin Panel - Quản lý từ điển và hệ thống</p>
             </div>
             
             <div class="dashboard-menu">
@@ -62,9 +55,9 @@
                 </div>
                 <div class="menu-item-desc">Xem và quản lý danh sách người dùng</div>
             </a>
-            <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="menu-item">
-                <div class="menu-item-title">🔍 Tra cứu từ</div>
-                <div class="menu-item-desc">Tra cứu từ điển như user</div>
+            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="menu-item">
+                <div class="menu-item-title">🏠 Về Dashboard</div>
+                <div class="menu-item-desc">Quay lại trang chủ dashboard</div>
             </a>
         </div>
     </main>
