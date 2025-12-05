@@ -30,24 +30,24 @@
             <div class="dashboard-cards">
             <div class="card">
                 <div class="card-title">Tổng số từ điển</div>
-                <div class="card-value">-</div>
+                <div class="card-value">${totalWords != null ? totalWords : 0}</div>
             </div>
             <div class="card">
                 <div class="card-title">Đề xuất chờ duyệt</div>
-                <div class="card-value">-</div>
+                <div class="card-value">${pendingSuggestions != null ? pendingSuggestions : 0}</div>
             </div>
             <div class="card">
                 <div class="card-title">Tổng số users</div>
-                <div class="card-value">-</div>
+                <div class="card-value">${totalUsers != null ? totalUsers : 0}</div>
             </div>
         </div>
         
         <div class="dashboard-menu">
-            <a href="${pageContext.request.contextPath}/admin/manage-words.jsp" class="menu-item">
+            <a href="${pageContext.request.contextPath}/admin/ManageWordsServlet" class="menu-item">
                 <div class="menu-item-title">📚 Quản lý từ điển</div>
                 <div class="menu-item-desc">Thêm, sửa, xóa từ trong từ điển</div>
             </a>
-            <a href="${pageContext.request.contextPath}/admin/approval-list.jsp" class="menu-item">
+            <a href="${pageContext.request.contextPath}/admin/ApprovalListServlet" class="menu-item">
                 <div class="menu-item-title">✅ Duyệt đề xuất</div>
                 <div class="menu-item-desc">Xem và duyệt từ user đề xuất</div>
             </a>

@@ -53,8 +53,8 @@ public class LoginServlet extends HttpServlet {
             
             // Phân luồng theo role
             if ("admin".equalsIgnoreCase(user.getRole())) {
-                // Redirect đến trang admin
-                response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.jsp");
+                // Redirect đến trang admin servlet để load data
+                response.sendRedirect(request.getContextPath() + "/admin/AdminDashboardServlet");
             } else {
                 // Redirect đến trang user
                 response.sendRedirect(request.getContextPath() + "/user/dashboard.jsp");
@@ -77,7 +77,7 @@ public class LoginServlet extends HttpServlet {
         if (session != null && session.getAttribute("user") != null) {
             String role = (String) session.getAttribute("role");
             if ("admin".equalsIgnoreCase(role)) {
-                response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.jsp");
+                response.sendRedirect(request.getContextPath() + "/admin/AdminDashboardServlet");
             } else {
                 response.sendRedirect(request.getContextPath() + "/user/dashboard.jsp");
             }

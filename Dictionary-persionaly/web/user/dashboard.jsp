@@ -49,7 +49,7 @@
                 <div class="menu-item-desc">Xem trạng thái đề xuất đã gửi</div>
             </a>
             <c:if test="${sessionScope.role == 'admin'}">
-                <a href="${pageContext.request.contextPath}/admin/admin-dashboard.jsp" class="menu-item">
+                <a href="${pageContext.request.contextPath}/admin/AdminDashboardServlet" class="menu-item">
                     <div class="menu-item-title">⚙️ Admin Panel</div>
                     <div class="menu-item-desc">Quản lý từ điển và duyệt đề xuất</div>
                 </a>

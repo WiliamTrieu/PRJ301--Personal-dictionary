@@ -171,5 +171,41 @@ public class UserDAO {
         
         return null;
     }
+    
+    /**
+     * Đếm tổng số users
+     * @return Tổng số users
+     */
+    public int countTotalUsers() {
+        String sql = "SELECT COUNT(*) as total FROM Users";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error in UserDAO.countTotalUsers: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+        
+        return 0;
+    }
 }
 

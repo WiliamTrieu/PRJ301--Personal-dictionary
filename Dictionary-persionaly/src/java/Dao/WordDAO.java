@@ -239,5 +239,161 @@ public class WordDAO {
         
         return 0;
     }
+    
+    /**
+     * Thêm từ mới vào từ điển
+     * @param word Word object
+     * @return true nếu thành công, false nếu thất bại
+     */
+    public boolean insertWord(Word word) {
+        String sql = "INSERT INTO Dictionary (word_english, word_vietnamese, pronunciation, word_type, " +
+                     "example_sentence, example_translation, created_by) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, word.getWordEnglish());
+            ps.setString(2, word.getWordVietnamese());
+            ps.setString(3, word.getPronunciation());
+            ps.setString(4, word.getWordType());
+            ps.setString(5, word.getExampleSentence());
+            ps.setString(6, word.getExampleTranslation());
+            ps.setInt(7, word.getCreatedBy());
+            
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+            
+        } catch (SQLException e) {
+            System.err.println("Error in WordDAO.insertWord: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Cập nhật từ điển
+     * @param word Word object với thông tin cập nhật
+     * @return true nếu thành công
+     */
+    public boolean updateWord(Word word) {
+        String sql = "UPDATE Dictionary SET word_english = ?, word_vietnamese = ?, pronunciation = ?, " +
+                     "word_type = ?, example_sentence = ?, example_translation = ?, " +
+                     "updated_by = ?, updated_at = GETDATE() " +
+                     "WHERE word_id = ?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, word.getWordEnglish());
+            ps.setString(2, word.getWordVietnamese());
+            ps.setString(3, word.getPronunciation());
+            ps.setString(4, word.getWordType());
+            ps.setString(5, word.getExampleSentence());
+            ps.setString(6, word.getExampleTranslation());
+            ps.setInt(7, word.getUpdatedBy());
+            ps.setInt(8, word.getWordId());
+            
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+            
+        } catch (SQLException e) {
+            System.err.println("Error in WordDAO.updateWord: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Xóa từ khỏi từ điển
+     * @param wordId ID của từ cần xóa
+     * @return true nếu thành công
+     */
+    public boolean deleteWord(int wordId) {
+        String sql = "DELETE FROM Dictionary WHERE word_id = ?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, wordId);
+            
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+            
+        } catch (SQLException e) {
+            System.err.println("Error in WordDAO.deleteWord: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Kiểm tra từ đã tồn tại chưa
+     * @param wordEnglish Từ tiếng Anh
+     * @return true nếu đã tồn tại
+     */
+    public boolean wordExists(String wordEnglish) {
+        String sql = "SELECT COUNT(*) as count FROM Dictionary WHERE LOWER(word_english) = LOWER(?)";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, wordEnglish.trim());
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("count") > 0;
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error in WordDAO.wordExists: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+        
+        return false;
+    }
 }
 
