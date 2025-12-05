@@ -10,7 +10,7 @@
             <div class="footer-section">
                 <h3 class="footer-title">Về Eden Dictionary</h3>
                 <p class="footer-text">
-                    Eden Dictionary là từ điển Anh - Việt chuyên ngành dành cho Intelligent Engineering. 
+                    Eden Dictionary là từ điển Anh - Việt chuyên ngành dành cho Software Engineer 
                     Chúng tôi cung cấp công cụ tra cứu từ vựng chính xác và đầy đủ.
                 </p>
             </div>

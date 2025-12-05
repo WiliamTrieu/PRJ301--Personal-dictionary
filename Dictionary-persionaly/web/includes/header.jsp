@@ -7,22 +7,42 @@
 <header class="main-header">
     <div class="header-container">
         <div class="header-left">
-            <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="logo-link" onclick="scrollToTop(event)">
-                <div class="logo-icon">
-                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                        <circle cx="16" cy="16" r="16" fill="#2D5A3D"/>
-                        <path d="M12 10L20 16L12 22V10Z" fill="white"/>
-                    </svg>
-                </div>
-                <span class="logo-text">Eden Dictionary</span>
-            </a>
+            <c:choose>
+                <c:when test="${sessionScope.role == 'admin'}">
+                    <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="logo-link" onclick="scrollToTop(event)">
+                        <div class="logo-icon">
+                            <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                                <circle cx="16" cy="16" r="16" fill="#2D5A3D"/>
+                                <path d="M12 10L20 16L12 22V10Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">Eden Dictionary</span>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="logo-link" onclick="scrollToTop(event)">
+                        <div class="logo-icon">
+                            <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                                <circle cx="16" cy="16" r="16" fill="#2D5A3D"/>
+                                <path d="M12 10L20 16L12 22V10Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">Eden Dictionary</span>
+                    </a>
+                </c:otherwise>
+            </c:choose>
         </div>
         
         <nav class="header-nav">
             <c:if test="${sessionScope.user != null}">
-                <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="nav-link" onclick="scrollToTop(event)">Trang chủ</a>
-                
-
+                <c:choose>
+                    <c:when test="${sessionScope.role == 'admin'}">
+                        <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="nav-link" onclick="scrollToTop(event)">Trang chủ</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="nav-link" onclick="scrollToTop(event)">Trang chủ</a>
+                    </c:otherwise>
+                </c:choose>
             </c:if>
         </nav>
         
