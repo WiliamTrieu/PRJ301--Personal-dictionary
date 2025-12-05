@@ -21,11 +21,8 @@
         <nav class="header-nav">
             <c:if test="${sessionScope.user != null}">
                 <a href="${pageContext.request.contextPath}/user/dashboard.jsp" class="nav-link" onclick="scrollToTop(event)">Trang chủ</a>
-                <a href="${pageContext.request.contextPath}/user/suggest-word.jsp" class="nav-link">Đề xuất từ</a>
-                <a href="${pageContext.request.contextPath}/user/my-suggestions.jsp" class="nav-link">Đề xuất của tôi</a>
-                <c:if test="${sessionScope.role == 'admin'}">
-                    <a href="${pageContext.request.contextPath}/admin/admin-dashboard.jsp" class="nav-link admin-link">Admin</a>
-                </c:if>
+                
+
             </c:if>
         </nav>
         
