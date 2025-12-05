@@ -1,4 +1,4 @@
-package dao;
+package Dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +17,7 @@ public class DBContext {
     private static final String DATABASE_NAME = "PersonalDictionary";
     private static final String PORT = "1433"; // Port mặc định của SQL Server
     private static final String USERNAME = "sa"; // Thay bằng username của bạn
-    private static final String PASSWORD = "your_password"; // Thay bằng password của bạn
+    private static final String PASSWORD = "123"; // Thay bằng password của bạn
     
     // Connection String cho SQL Server
     private static final String CONNECTION_URL = 
