@@ -4,6 +4,7 @@
     Author     : trieu
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +33,11 @@
                     <p>Capture anything. Remember everything.</p>
                     <p>"A specialized dictionary for Intelligent Engineering"</p>
                 </div>
+                <c:if test="${not empty error}">
+                    <div style="background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+                        ${error}
+                    </div>
+                </c:if>
                 <form class="waitlist-form" id="waitlistForm" method="POST" action="${pageContext.request.contextPath}/LoginServlet">
                     <div class="email-input-container">
                         <svg class="email-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
