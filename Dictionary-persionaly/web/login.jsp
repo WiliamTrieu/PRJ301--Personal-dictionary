@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="login-page">
     <div class="eden-container">
         <div class="eden-card">
             <div class="eden-logo">
@@ -41,17 +41,15 @@
                 <form class="waitlist-form" id="waitlistForm" method="POST" action="${pageContext.request.contextPath}/LoginServlet">
                     <div class="email-input-container">
                         <svg class="email-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <polyline points="22,6 12,13 2,6" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#9CA3AF"/>
                         </svg>
-                        <input type="email" id="email" name="email" placeholder="Your account" required>
+                        <input type="text" id="email" name="email" placeholder="Tên đăng nhập" required>
                     </div>
                     <div class="email-input-container">
                         <svg class="email-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <polyline points="22,6 12,13 2,6" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z" fill="#9CA3AF"/>
                         </svg>
-                        <input type="password" id="password" name="password" placeholder="Your password" required>
+                        <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
                     </div>
                     <button type="submit" class="waitlist-btn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -85,7 +83,7 @@
             
             if (!email || !password) {
                 e.preventDefault();
-                alert('Please fill in all fields');
+                alert('Vui lòng nhập đầy đủ thông tin');
                 return false;
             }
         });

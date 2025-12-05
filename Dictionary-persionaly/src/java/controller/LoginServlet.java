@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         // Validate input
         if (email == null || email.trim().isEmpty() || 
             password == null || password.trim().isEmpty()) {
-            request.setAttribute("error", "Vui lòng nhập đầy đủ email và password!");
+            request.setAttribute("error", "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
@@ -61,7 +61,7 @@ public class LoginServlet extends HttpServlet {
             }
         } else {
             // Đăng nhập thất bại
-            request.setAttribute("error", "Email hoặc password không đúng!");
+            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

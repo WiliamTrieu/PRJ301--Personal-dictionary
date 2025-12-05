@@ -136,6 +136,11 @@ VALUES
     ('user1@test.com', 'user123', N'Nguyễn Văn A', 'user'),
     ('user2@test.com', 'user123', N'Trần Thị B', 'user');
 GO
+SELECT user_id, email, password, LEN(password) as password_length, 
+       full_name, role, status 
+FROM Users 
+WHERE email = 'admin@dictionary.com';
+
 
 -- Insert một số từ điển mẫu
 INSERT INTO Dictionary (word_english, word_vietnamese, pronunciation, word_type, example_sentence, example_translation, created_by)
