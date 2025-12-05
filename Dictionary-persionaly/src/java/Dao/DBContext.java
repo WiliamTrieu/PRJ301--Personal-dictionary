@@ -20,10 +20,12 @@ public class DBContext {
     private static final String PASSWORD = "123"; // Thay bằng password của bạn
     
     // Connection String cho SQL Server
+    // Thêm useJVMChained=true để tránh lỗi JAXB với Java 9+
     private static final String CONNECTION_URL = 
         "jdbc:sqlserver://" + SERVER_NAME + ":" + PORT + 
         ";databaseName=" + DATABASE_NAME + 
-        ";encrypt=true;trustServerCertificate=true;";
+        ";encrypt=true;trustServerCertificate=true" +
+        ";useJVMChained=true";
     
     /**
      * Lấy kết nối đến database
