@@ -62,7 +62,7 @@
             </div>
             
             <div class="eden-footer">
-                <a href="#" class="footer-link">Sign in</a>
+                <a href="${pageContext.request.contextPath}/index.jsp" class="footer-link">← Về trang chủ</a>
                 <span class="separator">|</span>
                 <a href="#" class="footer-link">Reset password</a>
             </div>
