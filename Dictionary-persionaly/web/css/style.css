@@ -120,14 +120,13 @@ body.login-page {
 .waitlist-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
     margin-bottom: 24px;
 }
 
 .email-input-container {
     position: relative;
-    display: flex;
-    align-items: center;
+    margin-bottom: 20px;
 }
 
 .email-icon {
@@ -160,8 +159,7 @@ body.login-page {
 /* Password Input Container */
 .password-input-container {
     position: relative;
-    display: flex;
-    align-items: center;
+    margin-bottom: 20px;
 }
 
 .password-input-container input {
@@ -218,12 +216,36 @@ body.login-page {
 
 /* Input Error Messages */
 .input-error {
-    font-size: 12px;
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
     color: #dc2626;
-    margin-top: 4px;
-    margin-left: 4px;
-    min-height: 16px;
-    animation: fadeIn 0.3s ease;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #fee2e2;
+    border-left: 3px solid #dc2626;
+    border-radius: 6px;
+    line-height: 1.5;
+    animation: errorSlideDown 0.3s ease-out;
+}
+
+.input-error:empty {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes errorSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 100px;
+    }
 }
 
 @keyframes fadeIn {
@@ -397,8 +419,12 @@ body.login-page {
 
 /* Password Strength Indicator */
 .password-strength {
-    margin-top: -8px;
+    margin-top: 8px;
     margin-bottom: 16px;
+    padding: 8px 12px;
+    background: #f9fafb;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
 }
 
 .strength-bar {
@@ -680,6 +706,23 @@ body.login-page {
     
     .forgot-password-link {
         align-self: flex-end;
+    }
+    
+    /* Error messages responsive */
+    .input-error {
+        font-size: 12px;
+        padding: 6px 10px;
+        margin-top: 6px;
+    }
+    
+    .email-input-container,
+    .password-input-container {
+        margin-bottom: 16px;
+    }
+    
+    .password-strength {
+        padding: 6px 10px;
+        font-size: 11px;
     }
 }
 
