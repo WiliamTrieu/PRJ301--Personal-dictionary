@@ -157,6 +157,318 @@ body.login-page {
     color: #9ca3af;
 }
 
+/* Password Input Container */
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    width: 100%;
+    padding: 16px 48px 16px 48px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 16px;
+    color: #374151;
+    background: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.password-input-container input:focus {
+    outline: none;
+    border-color: #2d5a3d;
+    box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.1);
+}
+
+.password-input-container input::placeholder {
+    color: #9ca3af;
+}
+
+/* Password Toggle Button */
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    z-index: 3;
+}
+
+.password-toggle:hover {
+    color: #2d5a3d;
+}
+
+.password-toggle:active {
+    transform: scale(0.95);
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+}
+
+/* Input Error Messages */
+.input-error {
+    font-size: 12px;
+    color: #dc2626;
+    margin-top: 4px;
+    margin-left: 4px;
+    min-height: 16px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Error Message */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-left: 4px solid #dc2626;
+    animation: slideIn 0.3s ease;
+}
+
+.error-icon {
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Success Message */
+.success-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #d1fae5;
+    color: #065f46;
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-left: 4px solid #10b981;
+    animation: slideIn 0.3s ease;
+}
+
+.success-icon {
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+}
+
+/* Form Options */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -8px;
+    margin-bottom: 4px;
+}
+
+/* Remember Me Checkbox */
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    color: #374151;
+}
+
+.remember-me input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    background: white;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.remember-me:hover input ~ .checkmark {
+    border-color: #2d5a3d;
+}
+
+.remember-me input:checked ~ .checkmark {
+    background: #2d5a3d;
+    border-color: #2d5a3d;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.remember-me input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.remember-me .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.remember-text {
+    font-size: 14px;
+    color: #374151;
+    transition: color 0.2s ease;
+}
+
+.remember-me:hover .remember-text {
+    color: #2d5a3d;
+}
+
+/* Forgot Password Link */
+.forgot-password-link {
+    font-size: 14px;
+    color: #2d5a3d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.forgot-password-link:hover {
+    color: #1f4529;
+    text-decoration: underline;
+}
+
+/* Submit Button Loading State */
+.waitlist-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.waitlist-btn:disabled:hover {
+    background: #2d5a3d;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+    margin-top: -8px;
+    margin-bottom: 16px;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.strength-bar-fill {
+    height: 100%;
+    width: 0%;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.strength-text {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: right;
+    transition: color 0.3s ease;
+}
+
+/* Auth Switch (Login/Register link) */
+.auth-switch {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.auth-switch span {
+    margin-right: 8px;
+}
+
+.auth-link {
+    color: #2d5a3d;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.auth-link:hover {
+    color: #1f4529;
+    text-decoration: underline;
+}
+
+/* Terms Link */
+.terms-link {
+    color: #2d5a3d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.terms-link:hover {
+    color: #1f4529;
+    text-decoration: underline;
+}
+
+/* Remember Me Label - adjust for longer text */
+.remember-me .remember-text {
+    line-height: 1.4;
+    max-width: 280px;
+}
+
 /* Waitlist Button */
 .waitlist-btn {
     display: flex;
@@ -345,13 +657,29 @@ body.login-page {
     }
     
     .email-input-container input,
+    .password-input-container input,
     .waitlist-btn {
         padding: 14px 16px;
         font-size: 15px;
     }
     
-    .email-input-container input {
+    .email-input-container input,
+    .password-input-container input {
         padding-left: 44px;
+    }
+    
+    .password-input-container input {
+        padding-right: 44px;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .forgot-password-link {
+        align-self: flex-end;
     }
 }
 

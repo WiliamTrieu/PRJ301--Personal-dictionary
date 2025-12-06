@@ -20,7 +20,7 @@
                 <p class="footer-text">
                     Email: Trieulinhnk2@gmail.com<br>
                     Điện thoại: 0365757739<br>
-                    Địa chỉ: 123 Đường ABC, Quận XYZ, TP.HCM
+                    Địa chỉ: 123 Proval, Quận Văn Kiều, TP Nghệ An
                 </p>
             </div>
             

@@ -39,7 +39,7 @@
             
             <div class="nav-actions">
                 <a href="${pageContext.request.contextPath}/login.jsp" class="btn-nav-login">Log in</a>
-                <a href="${pageContext.request.contextPath}/login.jsp" class="btn-nav-signup">SIGN UP</a>
+                <a href="${pageContext.request.contextPath}/register.jsp" class="btn-nav-signup">SIGN UP</a>
             </div>
         </div>
     </nav>

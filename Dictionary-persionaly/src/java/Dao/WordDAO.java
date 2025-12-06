@@ -395,5 +395,44 @@ public class WordDAO {
         
         return false;
     }
+    
+    /**
+     * Đếm số từ mà một user đã tạo
+     * @param userId ID của user
+     * @return Số lượng từ đã tạo
+     */
+    public int countWordsByUser(int userId) {
+        String sql = "SELECT COUNT(*) as total FROM Dictionary WHERE created_by = ?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error in WordDAO.countWordsByUser: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+        
+        return 0;
+    }
 }
 

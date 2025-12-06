@@ -45,7 +45,7 @@
                 <a href="${pageContext.request.contextPath}/admin/add-word.jsp" class="action-btn add-btn">
                     ➕ Thêm từ mới
                 </a>
-                <a href="${pageContext.request.contextPath}/admin/admin-dashboard.jsp" class="action-btn back-btn">
+                <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="action-btn back-btn">
                     ← Quay lại Dashboard
                 </a>
             </div>

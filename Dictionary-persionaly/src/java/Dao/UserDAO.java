@@ -207,5 +207,54 @@ public class UserDAO {
         
         return 0;
     }
+    
+    /**
+     * Lấy tất cả users với thống kê đóng góp
+     * @return Danh sách User objects
+     */
+    public java.util.List<model.User> getAllUsers() {
+        java.util.List<model.User> users = new java.util.ArrayList<>();
+        String sql = "SELECT user_id, email, password, full_name, role, status, created_at, updated_at " +
+                     "FROM Users " +
+                     "ORDER BY created_at DESC";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                model.User user = new model.User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setFullName(rs.getString("full_name"));
+                user.setRole(rs.getString("role"));
+                user.setStatus(rs.getBoolean("status"));
+                user.setCreatedAt(rs.getTimestamp("created_at"));
+                user.setUpdatedAt(rs.getTimestamp("updated_at"));
+                
+                users.add(user);
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error in UserDAO.getAllUsers: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+        
+        return users;
+    }
 }
 

@@ -51,17 +51,28 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("fullName", user.getFullName());
             session.setAttribute("role", user.getRole());
             
+            // Xử lý "Remember Me" - tăng session timeout
+            String rememberMe = request.getParameter("rememberMe");
+            if ("true".equals(rememberMe)) {
+                // Nếu user chọn "Remember Me", tăng session timeout lên 7 ngày (604800 seconds)
+                session.setMaxInactiveInterval(7 * 24 * 60 * 60); // 7 days
+            } else {
+                // Mặc định session timeout là 30 phút (theo web.xml)
+                session.setMaxInactiveInterval(30 * 60); // 30 minutes
+            }
+            
             // Phân luồng theo role
             if ("admin".equalsIgnoreCase(user.getRole())) {
-                // Redirect đến trang admin dashboard JSP
-                response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.jsp");
+                // Redirect đến trang admin dashboard trực quan (có search box)
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
             } else {
                 // Redirect đến trang user
                 response.sendRedirect(request.getContextPath() + "/user/dashboard.jsp");
             }
         } else {
-            // Đăng nhập thất bại
-            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
+            // Đăng nhập thất bại - không cho biết cụ thể là email hay password sai
+            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại!");
+            request.setAttribute("email", email); // Giữ lại email để user không phải nhập lại
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
@@ -77,7 +88,7 @@ public class LoginServlet extends HttpServlet {
         if (session != null && session.getAttribute("user") != null) {
             String role = (String) session.getAttribute("role");
             if ("admin".equalsIgnoreCase(role)) {
-                response.sendRedirect(request.getContextPath() + "/admin/admin-dashboard.jsp");
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/user/dashboard.jsp");
             }

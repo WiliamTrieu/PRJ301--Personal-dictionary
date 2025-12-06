@@ -34,7 +34,6 @@
                 </p>
             </div>
             
-            <!-- Success/Error messages -->
             <c:if test="${not empty success}">
                 <div class="alert alert-success">${success}</div>
             </c:if>
@@ -44,7 +43,7 @@
             
             <!-- Action buttons -->
             <div class="action-bar">
-            <a href="${pageContext.request.contextPath}/admin/AdminDashboardServlet" class="action-btn back-btn">
+            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="action-btn back-btn">
                 ← Quay lại Dashboard
             </a>
             </div>
