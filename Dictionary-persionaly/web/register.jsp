@@ -183,8 +183,8 @@
                         </div>
                         
                         <div class="security-hint">
-                            💡 <strong>Chỉ cần ≥6 ký tự bất kỳ, không trống!</strong><br>
-                            VD: "MySecretCode123", "abcd1234", "Tên chó Milo", v.v...
+                            💡 <strong>Chỉ cần ≥6 ký tự bất kỳ,không được để trống!</strong><br>
+                            VD: "MySecretCode123"v.v...
                         </div>
                     </div>
                     

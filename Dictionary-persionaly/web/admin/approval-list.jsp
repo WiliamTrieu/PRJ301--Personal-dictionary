@@ -56,6 +56,30 @@
                             <div class="suggestion-card">
                                 <div class="suggestion-header">
                                     <div class="suggestion-word">
+                                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                            <c:choose>
+                                                <c:when test="${suggestion.suggestionType == 'edit'}">
+                                                    <span class="badge badge-edit">
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display: inline;">
+                                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </svg>
+                                                        CHỈNH SỬA
+                                                    </span>
+                                                    <span class="edit-info">
+                                                        🔄 Sửa từ ID: ${suggestion.originalWordId}
+                                                    </span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="badge badge-new">
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="display: inline;">
+                                                            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                                        </svg>
+                                                        MỚI
+                                                    </span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
                                         <h3 class="word-english">${suggestion.wordEnglish}</h3>
                                         <p class="word-vietnamese">${suggestion.wordVietnamese}</p>
                                     </div>
@@ -296,6 +320,52 @@
             background: #fee2e2;
             color: #991b1b;
             border: 1px solid #dc2626;
+        }
+        
+        /* Suggestion Type Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-new {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        
+        .badge-edit {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.02);
+                opacity: 0.95;
+            }
+        }
+        
+        .edit-info {
+            font-size: 13px;
+            color: #f59e0b;
+            font-weight: 600;
+            background: rgba(245, 158, 11, 0.1);
+            padding: 4px 12px;
+            border-radius: 8px;
         }
         
         @media (max-width: 768px) {

@@ -72,7 +72,7 @@ public class WordSuggestionDAO {
         List<WordSuggestion> suggestions = new ArrayList<>();
         String sql = "SELECT suggestion_id, word_english, word_vietnamese, pronunciation, word_type, " +
                      "example_sentence, example_translation, suggested_by, status, reviewed_by, " +
-                     "review_note, created_at, reviewed_at " +
+                     "review_note, created_at, reviewed_at, suggestion_type, original_word_id " +
                      "FROM WordSuggestions " +
                      "WHERE suggested_by = ? " +
                      "ORDER BY created_at DESC";
@@ -119,6 +119,7 @@ public class WordSuggestionDAO {
         String sql = "SELECT s.suggestion_id, s.word_english, s.word_vietnamese, s.pronunciation, " +
                      "s.word_type, s.example_sentence, s.example_translation, s.suggested_by, " +
                      "s.status, s.reviewed_by, s.review_note, s.created_at, s.reviewed_at, " +
+                     "s.suggestion_type, s.original_word_id, " +
                      "u.full_name AS suggested_by_name " +
                      "FROM WordSuggestions s " +
                      "LEFT JOIN Users u ON s.suggested_by = u.user_id " +
@@ -166,7 +167,7 @@ public class WordSuggestionDAO {
     public WordSuggestion getSuggestionById(int suggestionId) {
         String sql = "SELECT suggestion_id, word_english, word_vietnamese, pronunciation, word_type, " +
                      "example_sentence, example_translation, suggested_by, status, reviewed_by, " +
-                     "review_note, created_at, reviewed_at " +
+                     "review_note, created_at, reviewed_at, suggestion_type, original_word_id " +
                      "FROM WordSuggestions " +
                      "WHERE suggestion_id = ?";
         
@@ -288,7 +289,7 @@ public class WordSuggestionDAO {
         List<WordSuggestion> suggestions = new ArrayList<>();
         String sql = "SELECT suggestion_id, word_english, word_vietnamese, pronunciation, word_type, " +
                      "example_sentence, example_translation, suggested_by, status, reviewed_by, " +
-                     "review_note, created_at, reviewed_at " +
+                     "review_note, created_at, reviewed_at, suggestion_type, original_word_id " +
                      "FROM WordSuggestions " +
                      "WHERE suggested_by = ? AND status = ? " +
                      "ORDER BY created_at DESC";
@@ -418,6 +419,18 @@ public class WordSuggestionDAO {
         suggestion.setReviewNote(rs.getString("review_note"));
         suggestion.setCreatedAt(rs.getTimestamp("created_at"));
         suggestion.setReviewedAt(rs.getTimestamp("reviewed_at"));
+        
+        // NEW FIELDS for Suggest Edit feature
+        try {
+            suggestion.setSuggestionType(rs.getString("suggestion_type"));
+            if (rs.getObject("original_word_id") != null) {
+                suggestion.setOriginalWordId(rs.getInt("original_word_id"));
+            }
+        } catch (SQLException e) {
+            // Columns might not exist if migration not run yet
+            suggestion.setSuggestionType("new"); // Default to 'new'
+            suggestion.setOriginalWordId(null);
+        }
         
         return suggestion;
     }

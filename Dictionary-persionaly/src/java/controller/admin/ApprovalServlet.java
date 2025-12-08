@@ -1,6 +1,7 @@
 package controller.admin;
 
 import Dao.WordDAO;
+import Dao.DictionaryDAO;
 import Dao.WordSuggestionDAO;
 import Dao.UserDAO;
 import model.Word;
@@ -56,34 +57,71 @@ public class ApprovalServlet extends HttpServlet {
             }
             
             if ("approve".equals(action)) {
-                // Approve đề xuất
-                // 1. Thêm vào Dictionary
-                Word word = new Word();
-                word.setWordEnglish(suggestion.getWordEnglish());
-                word.setWordVietnamese(suggestion.getWordVietnamese());
-                word.setPronunciation(suggestion.getPronunciation());
-                word.setWordType(suggestion.getWordType());
-                word.setExampleSentence(suggestion.getExampleSentence());
-                word.setExampleTranslation(suggestion.getExampleTranslation());
-                word.setCreatedBy(suggestion.getSuggestedBy());
+                // Approve đề xuất - Check type: NEW or EDIT
+                boolean wordSuccess = false;
+                String successMessage = "";
                 
-                WordDAO wordDAO = new WordDAO();
-                boolean wordAdded = wordDAO.insertWord(word);
+                // Check suggestion type
+                if ("edit".equals(suggestion.getSuggestionType())) {
+                    // ===== EDIT TYPE: UPDATE từ cũ =====
+                    System.out.println("📝 Processing EDIT suggestion for word ID: " + suggestion.getOriginalWordId());
+                    
+                    DictionaryDAO dictDAO = new DictionaryDAO();
+                    wordSuccess = dictDAO.updateWord(
+                        suggestion.getOriginalWordId(),
+                        suggestion.getWordVietnamese(),
+                        suggestion.getPronunciation(),
+                        suggestion.getWordType(),
+                        suggestion.getExampleSentence(),
+                        suggestion.getExampleTranslation()
+                    );
+                    
+                    if (wordSuccess) {
+                        successMessage = "Đã chấp nhận và CẬP NHẬT từ trong từ điển!";
+                        System.out.println("✅ Word UPDATED: " + suggestion.getWordEnglish());
+                    } else {
+                        System.err.println("❌ Failed to UPDATE word ID: " + suggestion.getOriginalWordId());
+                    }
+                    
+                } else {
+                    // ===== NEW TYPE: INSERT từ mới =====
+                    System.out.println("➕ Processing NEW suggestion: " + suggestion.getWordEnglish());
+                    
+                    Word word = new Word();
+                    word.setWordEnglish(suggestion.getWordEnglish());
+                    word.setWordVietnamese(suggestion.getWordVietnamese());
+                    word.setPronunciation(suggestion.getPronunciation());
+                    word.setWordType(suggestion.getWordType());
+                    word.setExampleSentence(suggestion.getExampleSentence());
+                    word.setExampleTranslation(suggestion.getExampleTranslation());
+                    word.setCreatedBy(suggestion.getSuggestedBy());
+                    
+                    WordDAO wordDAO = new WordDAO();
+                    wordSuccess = wordDAO.insertWord(word);
+                    
+                    if (wordSuccess) {
+                        successMessage = "Đã chấp nhận và THÊM từ mới vào từ điển!";
+                        System.out.println("✅ Word INSERTED: " + suggestion.getWordEnglish());
+                    } else {
+                        System.err.println("❌ Failed to INSERT word: " + suggestion.getWordEnglish());
+                    }
+                }
                 
-                if (wordAdded) {
-                    // 2. Cập nhật trạng thái đề xuất
+                if (wordSuccess) {
+                    // Cập nhật trạng thái đề xuất
                     String reviewNote = request.getParameter("reviewNote");
                     if (reviewNote == null) reviewNote = "";
+                    
                     boolean statusUpdated = suggestionDAO.updateSuggestionStatus(
                         suggestionId, "approved", adminId, reviewNote);
                     
                     if (statusUpdated) {
-                        request.setAttribute("success", "Đã chấp nhận và thêm từ vào từ điển!");
+                        request.setAttribute("success", successMessage);
                     } else {
-                        request.setAttribute("error", "Đã thêm từ nhưng không cập nhật được trạng thái!");
+                        request.setAttribute("error", "Đã xử lý từ nhưng không cập nhật được trạng thái suggestion!");
                     }
                 } else {
-                    request.setAttribute("error", "Không thể thêm từ vào từ điển!");
+                    request.setAttribute("error", "Không thể xử lý từ trong từ điển! Kiểm tra console logs.");
                 }
                 
             } else if ("reject".equals(action)) {

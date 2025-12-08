@@ -81,10 +81,17 @@
                                     </div>
                                 </c:if>
                                 
-                                <!-- Suggest Edit Button -->
+                                <!-- Suggest Edit Button - FIXED -->
                                 <div class="word-actions">
-                                    <button onclick="suggestEdit(${word.wordId}, '${word.wordEnglish}', '${word.wordVietnamese}', '${word.pronunciation}', '${word.wordType}', `${word.exampleSentence}`, `${word.exampleTranslation}`)" 
-                                            class="edit-suggestion-btn">
+                                    <button onclick="suggestEditWord(this)" 
+                                            class="edit-suggestion-btn"
+                                            data-word-id="${word.wordId}"
+                                            data-word-english="${word.wordEnglish}"
+                                            data-word-vietnamese="${word.wordVietnamese}"
+                                            data-pronunciation="${word.pronunciation}"
+                                            data-word-type="${word.wordType}"
+                                            data-example-sentence="${word.exampleSentence}"
+                                            data-example-translation="${word.exampleTranslation}">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -297,16 +304,25 @@
     </style>
     
     <script>
-        function suggestEdit(wordId, wordEnglish, wordVietnamese, pronunciation, wordType, exampleSentence, exampleTranslation) {
-            // Encode parameters properly
+        function suggestEditWord(button) {
+            // Get data from button attributes (safer method - no escaping issues)
+            const wordId = button.getAttribute('data-word-id');
+            const wordEnglish = button.getAttribute('data-word-english') || '';
+            const wordVietnamese = button.getAttribute('data-word-vietnamese') || '';
+            const pronunciation = button.getAttribute('data-pronunciation') || '';
+            const wordType = button.getAttribute('data-word-type') || '';
+            const exampleSentence = button.getAttribute('data-example-sentence') || '';
+            const exampleTranslation = button.getAttribute('data-example-translation') || '';
+            
+            // Build URL with encoded parameters
             const params = new URLSearchParams({
                 wordId: wordId,
-                wordEnglish: wordEnglish || '',
-                wordVietnamese: wordVietnamese || '',
-                pronunciation: pronunciation || '',
-                wordType: wordType || '',
-                exampleSentence: exampleSentence || '',
-                exampleTranslation: exampleTranslation || ''
+                wordEnglish: wordEnglish,
+                wordVietnamese: wordVietnamese,
+                pronunciation: pronunciation,
+                wordType: wordType,
+                exampleSentence: exampleSentence,
+                exampleTranslation: exampleTranslation
             });
             
             // Redirect to suggest-edit page
