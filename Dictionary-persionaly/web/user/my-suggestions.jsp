@@ -28,23 +28,45 @@
                 <p style="color: #52796f; font-weight: 500;">Xem trạng thái các đề xuất bạn đã gửi</p>
             </div>
             
+            <!-- Statistics Summary -->
+            <c:if test="${totalCount > 0}">
+                <div class="statistics-summary">
+                    <div class="stat-card">
+                        <div class="stat-number">${totalCount}</div>
+                        <div class="stat-label">Tổng số đề xuất</div>
+                    </div>
+                    <div class="stat-card stat-pending">
+                        <div class="stat-number">${pendingCount}</div>
+                        <div class="stat-label">⏳ Chờ duyệt</div>
+                    </div>
+                    <div class="stat-card stat-approved">
+                        <div class="stat-number">${approvedCount}</div>
+                        <div class="stat-label">✅ Đã chấp nhận</div>
+                    </div>
+                    <div class="stat-card stat-rejected">
+                        <div class="stat-number">${rejectedCount}</div>
+                        <div class="stat-label">❌ Đã từ chối</div>
+                    </div>
+                </div>
+            </c:if>
+            
             <!-- Tabs filter -->
             <div class="filter-tabs">
                 <a href="${pageContext.request.contextPath}/SuggestionServlet?action=my-suggestions" 
                    class="filter-tab ${empty param.status ? 'active' : ''}">
-                    Tất cả
+                    Tất cả <span class="tab-count">(${totalCount})</span>
                 </a>
                 <a href="${pageContext.request.contextPath}/SuggestionServlet?action=my-suggestions&status=pending" 
                    class="filter-tab ${param.status == 'pending' ? 'active' : ''}">
-                    Chờ duyệt
+                    Chờ duyệt <span class="tab-count">(${pendingCount})</span>
                 </a>
                 <a href="${pageContext.request.contextPath}/SuggestionServlet?action=my-suggestions&status=approved" 
                    class="filter-tab ${param.status == 'approved' ? 'active' : ''}">
-                    Đã chấp nhận
+                    Đã chấp nhận <span class="tab-count">(${approvedCount})</span>
                 </a>
                 <a href="${pageContext.request.contextPath}/SuggestionServlet?action=my-suggestions&status=rejected" 
                    class="filter-tab ${param.status == 'rejected' ? 'active' : ''}">
-                    Đã từ chối
+                    Đã từ chối <span class="tab-count">(${rejectedCount})</span>
                 </a>
             </div>
             
@@ -131,6 +153,70 @@
     <jsp:include page="../includes/footer.jsp"/>
     
     <style>
+        /* Statistics Summary */
+        .statistics-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(45, 90, 61, 0.1);
+            border: 2px solid rgba(45, 90, 61, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(45, 90, 61, 0.15);
+        }
+        
+        .stat-card.stat-pending {
+            border-color: #fbbf24;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        }
+        
+        .stat-card.stat-approved {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+        }
+        
+        .stat-card.stat-rejected {
+            border-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1f4529;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card.stat-pending .stat-number {
+            color: #92400e;
+        }
+        
+        .stat-card.stat-approved .stat-number {
+            color: #065f46;
+        }
+        
+        .stat-card.stat-rejected .stat-number {
+            color: #991b1b;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #52796f;
+        }
+        
+        /* Filter Tabs */
         .filter-tabs {
             display: flex;
             gap: 12px;
@@ -158,6 +244,18 @@
             background: linear-gradient(135deg, #2d5a3d 0%, #1f4529 100%);
             color: white;
             border-color: #2d5a3d;
+        }
+        
+        /* Tab count badge */
+        .tab-count {
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0.8;
+            margin-left: 4px;
+        }
+        
+        .filter-tab.active .tab-count {
+            opacity: 1;
         }
         
         .suggestions-list {
