@@ -279,6 +279,54 @@ public class WordSuggestionDAO {
     }
     
     /**
+     * Lấy đề xuất của user theo status cụ thể
+     * @param userId ID của user
+     * @param status Status cần lọc (pending, approved, rejected)
+     * @return Danh sách WordSuggestion
+     */
+    public List<WordSuggestion> getSuggestionsByUserAndStatus(int userId, String status) {
+        List<WordSuggestion> suggestions = new ArrayList<>();
+        String sql = "SELECT suggestion_id, word_english, word_vietnamese, pronunciation, word_type, " +
+                     "example_sentence, example_translation, suggested_by, status, reviewed_by, " +
+                     "review_note, created_at, reviewed_at " +
+                     "FROM WordSuggestions " +
+                     "WHERE suggested_by = ? AND status = ? " +
+                     "ORDER BY created_at DESC";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setString(2, status);
+            
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                WordSuggestion suggestion = mapResultSetToSuggestion(rs);
+                suggestions.add(suggestion);
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error in WordSuggestionDAO.getSuggestionsByUserAndStatus: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+        
+        return suggestions;
+    }
+    
+    /**
      * Helper method: Map ResultSet to WordSuggestion object
      */
     private WordSuggestion mapResultSetToSuggestion(ResultSet rs) throws SQLException {

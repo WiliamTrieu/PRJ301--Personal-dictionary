@@ -76,7 +76,7 @@
                     <div class="stat-divider"></div>
                     <div class="stat-item">
                         <div class="stat-number">500+</div>
-                        <div class="stat-label">users</div>
+                        <div class="stat-label">Users</div>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
@@ -209,7 +209,7 @@
                     <h2 class="section-title">Về Eden Dictionary</h2>
                     <p class="about-description">
                         Eden Dictionary là dự án từ điển cá nhân được xây dựng 
-                        <strong>bởi developer, vì users</strong>. Chúng tôi hiểu rằng việc tra cứu 
+                        <strong>bởi developer, vì Users</strong>. Chúng tôi hiểu rằng việc tra cứu 
                         thuật ngữ  chính xác là vô cùng quan trọng trong quá trình học tập và làm việc.
                     </p>
                     <p class="about-description">
@@ -230,7 +230,7 @@
                             <div class="feature-check">✓</div>
                             <div>
                                 <strong>Cộng đồng</strong>
-                                <p>Mọi users đều có thể đóng góp</p>
+                                <p>Mọi Users đều có thể đóng góp</p>
                             </div>
                         </div>
                         <div class="about-feature-item">
@@ -335,7 +335,7 @@
     <section class="cta-section">
         <div class="cta-container">
             <h2 class="cta-title">Sẵn sàng bắt đầu?</h2>
-            <p class="cta-subtitle">Tham gia cùng hàng trăm users đang sử dụng Eden Dictionary</p>
+            <p class="cta-subtitle">Tham gia cùng hàng trăm Users đang sử dụng Eden Dictionary</p>
             <a href="${pageContext.request.contextPath}/login.jsp" class="btn-cta">
                 Đăng nhập ngay
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -353,7 +353,7 @@
                     <h3 class="footer-title">Về Eden Dictionary</h3>
                     <p class="footer-text">
                         Từ điển Anh-Việt chuyên ngành IT dành cho Việt Nam.
-                        Được xây dựng bởi developer, vì users.
+                        Được xây dựng bởi developer, vì Users.
                     </p>
                 </div>
                 

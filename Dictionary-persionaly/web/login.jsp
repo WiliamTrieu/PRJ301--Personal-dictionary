@@ -74,7 +74,7 @@
                         </button>
                         <div class="input-error" id="passwordError"></div>
                     </div>
-                    <div class="form-options">
+                    <div class="form-options">-
                         <label class="remember-me">
                             <input type="checkbox" id="rememberMe" name="rememberMe" value="true">
                             <span class="checkmark"></span>

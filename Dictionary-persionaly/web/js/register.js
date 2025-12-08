@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullNameInput = document.getElementById('fullName');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirmPassword');
+    const securityCodeInput = document.getElementById('securityCode');
+    const confirmSecurityCodeInput = document.getElementById('confirmSecurityCode');
     const agreeTermsCheckbox = document.getElementById('agreeTerms');
     const submitBtn = document.getElementById('submitBtn');
     
@@ -14,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullNameError = document.getElementById('fullNameError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const securityCodeError = document.getElementById('securityCodeError');
+    const confirmSecurityCodeError = document.getElementById('confirmSecurityCodeError');
     
     // Password strength elements
     const strengthContainer = document.getElementById('passwordStrength');
@@ -74,6 +78,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Security code validation
+    securityCodeInput.addEventListener('blur', validateSecurityCode);
+    securityCodeInput.addEventListener('input', function() {
+        if (securityCodeInput.style.borderColor === 'rgb(220, 38, 38)') {
+            securityCodeInput.style.borderColor = '#e5e7eb';
+            securityCodeError.textContent = '';
+        }
+    });
+    
+    // Confirm security code validation
+    confirmSecurityCodeInput.addEventListener('blur', validateConfirmSecurityCode);
+    confirmSecurityCodeInput.addEventListener('input', function() {
+        if (confirmSecurityCodeInput.style.borderColor === 'rgb(220, 38, 38)') {
+            confirmSecurityCodeInput.style.borderColor = '#e5e7eb';
+            confirmSecurityCodeError.textContent = '';
+        }
+    });
+    
     // Form submission
     form.addEventListener('submit', function(e) {
         let isValid = true;
@@ -86,6 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!validateFullName()) isValid = false;
         if (!validatePassword()) isValid = false;
         if (!validateConfirmPassword()) isValid = false;
+        if (!validateSecurityCode()) isValid = false;
+        if (!validateConfirmSecurityCode()) isValid = false;
         
         // Check terms agreement
         if (!agreeTermsCheckbox.checked) {
@@ -201,6 +225,47 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
     
+    function validateSecurityCode() {
+        const securityCode = securityCodeInput.value.trim();
+        
+        if (!securityCode) {
+            setError(securityCodeInput, securityCodeError, 'Vui lòng nhập mã bảo mật');
+            return false;
+        }
+        
+        if (securityCode.length < 6) {
+            setError(securityCodeInput, securityCodeError, 'Mã bảo mật phải có ít nhất 6 ký tự');
+            return false;
+        }
+        
+        if (securityCode.length > 50) {
+            setError(securityCodeInput, securityCodeError, 'Mã bảo mật không được quá 50 ký tự');
+            return false;
+        }
+        
+        // CHỈ CẦN ≥6 KÝ TỰ - KHÔNG CẦN CHECK GÌ THÊM!
+        clearError(securityCodeInput, securityCodeError);
+        return true;
+    }
+    
+    function validateConfirmSecurityCode() {
+        const securityCode = securityCodeInput.value.trim();
+        const confirmSecurityCode = confirmSecurityCodeInput.value.trim();
+        
+        if (!confirmSecurityCode) {
+            setError(confirmSecurityCodeInput, confirmSecurityCodeError, 'Vui lòng xác nhận mã bảo mật');
+            return false;
+        }
+        
+        if (securityCode !== confirmSecurityCode) {
+            setError(confirmSecurityCodeInput, confirmSecurityCodeError, 'Mã bảo mật xác nhận không khớp');
+            return false;
+        }
+        
+        clearError(confirmSecurityCodeInput, confirmSecurityCodeError);
+        return true;
+    }
+    
     // Password strength calculation
     function calculatePasswordStrength(password) {
         let strength = 0;
@@ -286,11 +351,15 @@ document.addEventListener('DOMContentLoaded', function() {
         fullNameError.textContent = '';
         passwordError.textContent = '';
         confirmPasswordError.textContent = '';
+        securityCodeError.textContent = '';
+        confirmSecurityCodeError.textContent = '';
         
         usernameInput.style.borderColor = '#e5e7eb';
         fullNameInput.style.borderColor = '#e5e7eb';
         passwordInput.style.borderColor = '#e5e7eb';
         confirmPasswordInput.style.borderColor = '#e5e7eb';
+        securityCodeInput.style.borderColor = '#e5e7eb';
+        confirmSecurityCodeInput.style.borderColor = '#e5e7eb';
     }
     
     // Auto-hide messages

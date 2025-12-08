@@ -143,6 +143,51 @@
                         <div class="input-error" id="confirmPasswordError"></div>
                     </div>
                     
+                    <!-- Security Code -->
+                    <div class="security-code-section">
+                        <div class="section-header">
+                            <h3 class="section-title">🔐 Mã bảo mật</h3>
+                            <button type="button" class="info-btn" onclick="showSecurityCodeInfo()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Tại sao cần mã bảo mật?
+                            </button>
+                        </div>
+                        
+                        <div class="password-input-container">
+                            <svg class="email-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="#9CA3AF"/>
+                            </svg>
+                            <input type="text" 
+                                   id="securityCode" 
+                                   name="securityCode" 
+                                   placeholder="Nhập bất kỳ: chữ, số, ký tự (tối thiểu 6 ký tự)" 
+                                   required 
+                                   minlength="6"
+                                   maxlength="50">
+                            <div class="input-error" id="securityCodeError"></div>
+                        </div>
+                        
+                        <div class="password-input-container">
+                            <svg class="email-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#9CA3AF"/>
+                            </svg>
+                            <input type="text" 
+                                   id="confirmSecurityCode" 
+                                   name="confirmSecurityCode" 
+                                   placeholder="Nhập lại mã bảo mật" 
+                                   required>
+                            <div class="input-error" id="confirmSecurityCodeError"></div>
+                        </div>
+                        
+                        <div class="security-hint">
+                            💡 <strong>Chỉ cần ≥6 ký tự bất kỳ, không trống!</strong><br>
+                            VD: "MySecretCode123", "abcd1234", "Tên chó Milo", v.v...
+                        </div>
+                    </div>
+                    
                     <!-- Terms Agreement -->
                     <div class="form-options" style="justify-content: flex-start; margin-top: 8px;">
                         <label class="remember-me">
@@ -180,6 +225,241 @@
             <div class="gradient-orb orb-3"></div>
         </div>
     </div>
+    
+    <style>
+        .security-code-section {
+            margin: 24px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 12px;
+            border: 2px solid rgba(45, 90, 61, 0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f4529;
+        }
+        
+        .info-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #2d5a3d;
+            border-radius: 6px;
+            color: #2d5a3d;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .info-btn:hover {
+            background: #2d5a3d;
+            color: white;
+        }
+        
+        .security-hint {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            font-size: 13px;
+            color: #065f46;
+            line-height: 1.5;
+        }
+    </style>
+    
+    <script>
+        function showSecurityCodeInfo() {
+            // Create modal overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'security-modal-overlay';
+            overlay.innerHTML = `
+                <div class="security-modal">
+                    <div class="security-modal-header">
+                        <h2>🔐 Về Mã Bảo Mật</h2>
+                        <button onclick="closeSecurityModal()" class="modal-close-btn">&times;</button>
+                    </div>
+                    <div class="security-modal-body">
+                        <p style="margin-bottom: 16px;">
+                            Mã bảo mật là mã riêng của bạn để xác thực danh tính khi quên mật khẩu.
+                        </p>
+                        
+                        <h3 style="color: #dc2626; margin: 16px 0 8px;">⚠️ Lưu ý quan trọng:</h3>
+                        <ul style="line-height: 1.8; margin-left: 20px;">
+                            <li>Chỉ <strong>BẠN</strong> biết mã này</li>
+                            <li>Cần nhớ để lấy lại mật khẩu</li>
+                            <li>Admin không thể thấy mã này</li>
+                            <li>Không được để lộ cho bất kỳ ai</li>
+                        </ul>
+                        
+                        <h3 style="color: #2d5a3d; margin: 16px 0 8px;">✅ Quy tắc đơn giản:</h3>
+                        <ul style="line-height: 1.8; margin-left: 20px;">
+                            <li><strong>Tối thiểu 6 ký tự</strong></li>
+                            <li><strong>Chữ, số, ký tự gì cũng được</strong></li>
+                            <li><strong>Không được để trống</strong></li>
+                        </ul>
+                        
+                        <h3 style="color: #2d5a3d; margin: 16px 0 8px;">💡 Ví dụ:</h3>
+                        <ul style="line-height: 1.8; margin-left: 20px;">
+                            <li>"MyDog123"</li>
+                            <li>"HaNoi1995"</li>
+                            <li>"Tên chó Milo"</li>
+                            <li>"SecretCode@2025"</li>
+                        </ul>
+                        
+                        <div style="margin-top: 20px; padding: 16px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                            <strong style="color: #92400e;">📌 Chọn mã dễ nhớ nhưng khó đoán!</strong>
+                        </div>
+                    </div>
+                    <div class="security-modal-footer">
+                        <button onclick="closeSecurityModal()" class="modal-ok-btn">Đã hiểu</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(overlay);
+            
+            // Add CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                .security-modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.5);
+                    backdrop-filter: blur(4px);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    animation: fadeIn 0.2s;
+                }
+                
+                .security-modal {
+                    background: white;
+                    border-radius: 16px;
+                    width: 90%;
+                    max-width: 600px;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    animation: slideUp 0.3s;
+                }
+                
+                .security-modal-header {
+                    padding: 24px;
+                    border-bottom: 1px solid #e5e7eb;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .security-modal-header h2 {
+                    margin: 0;
+                    color: #1f4529;
+                    font-size: 24px;
+                }
+                
+                .modal-close-btn {
+                    width: 32px;
+                    height: 32px;
+                    border: none;
+                    background: #f3f4f6;
+                    border-radius: 6px;
+                    font-size: 24px;
+                    color: #6b7280;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                
+                .modal-close-btn:hover {
+                    background: #fee2e2;
+                    color: #dc2626;
+                }
+                
+                .security-modal-body {
+                    padding: 24px;
+                    color: #374151;
+                    line-height: 1.6;
+                }
+                
+                .security-modal-footer {
+                    padding: 16px 24px;
+                    border-top: 1px solid #e5e7eb;
+                    text-align: right;
+                }
+                
+                .modal-ok-btn {
+                    padding: 12px 32px;
+                    background: linear-gradient(135deg, #2d5a3d 0%, #1f4529 100%);
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                
+                .modal-ok-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(45, 90, 61, 0.3);
+                }
+                
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        function closeSecurityModal() {
+            const overlay = document.querySelector('.security-modal-overlay');
+            if (overlay) {
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.remove(), 200);
+            }
+        }
+        
+        // Close on click outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('security-modal-overlay')) {
+                closeSecurityModal();
+            }
+        });
+        
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSecurityModal();
+            }
+        });
+    </script>
     
     <script src="${pageContext.request.contextPath}/js/register.js"></script>
 </body>

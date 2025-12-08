@@ -29,12 +29,15 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String fullName = request.getParameter("fullName");
+        String securityCode = request.getParameter("securityCode");
+        String confirmSecurityCode = request.getParameter("confirmSecurityCode");
         String agreeTerms = request.getParameter("agreeTerms");
         
         // Validate input
         if (username == null || username.trim().isEmpty() ||
             password == null || password.trim().isEmpty() ||
-            fullName == null || fullName.trim().isEmpty()) {
+            fullName == null || fullName.trim().isEmpty() ||
+            securityCode == null || securityCode.trim().isEmpty()) {
             request.setAttribute("error", "Vui lòng điền đầy đủ thông tin!");
             request.setAttribute("username", username);
             request.setAttribute("fullName", fullName);
@@ -78,6 +81,24 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
         
+        // Validate security code - CHỈ CẦN ≥6 KÝ TỰ
+        if (securityCode.trim().length() < 6) {
+            request.setAttribute("error", "Mã bảo mật phải có ít nhất 6 ký tự!");
+            request.setAttribute("username", username);
+            request.setAttribute("fullName", fullName);
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
+        
+        // Validate confirm security code
+        if (!securityCode.equals(confirmSecurityCode)) {
+            request.setAttribute("error", "Mã bảo mật xác nhận không khớp!");
+            request.setAttribute("username", username);
+            request.setAttribute("fullName", fullName);
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
+        }
+        
         // Validate terms agreement
         if (agreeTerms == null || !agreeTerms.equals("on")) {
             request.setAttribute("error", "Bạn phải đồng ý với Điều khoản sử dụng và Chính sách bảo mật!");
@@ -97,8 +118,8 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
         
-        // Đăng ký user
-        boolean success = userDAO.registerUser(username.trim(), password, fullName.trim());
+        // Đăng ký user với security code
+        boolean success = userDAO.registerUser(username.trim(), password, fullName.trim(), securityCode.trim());
         
         if (success) {
             // Đăng ký thành công
