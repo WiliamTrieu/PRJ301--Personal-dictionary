@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Eden Dictionary - Từ điển Anh-Việt chuyên ngành IT dành cho Software Engineer Việt Nam">
     <meta name="keywords" content="từ điển IT, từ điển lập trình, English Vietnamese Dictionary, Software Engineering">
-    <title>Eden Dictionary - Từ điển IT cho Developer Việt Nam</title>
+    <title>Eden Dictionary - Từ điển cá nhân hóa hoàn hảo dành cho bạn</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/landing.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,14 +48,14 @@
     <section id="home" class="hero-section">
         <div class="hero-container">
             <div class="hero-content">
-                <div class="hero-badge">🚀 Từ điển mới dành cho Developer</div>
+                <div class="hero-badge">🚀</div>
                 <h1 class="hero-title">
-                    Từ điển IT<br>
-                    <span class="gradient-text">cho Developer Việt Nam</span>
+                    Từ điển <br>
+                    <span class="gradient-text">Cá nhân hóa dành riêng cho bạn</span>
                 </h1>
                 <p class="hero-subtitle">
-                    Tra cứu thuật ngữ lập trình chính xác, đóng góp cộng đồng,<br>
-                    học tập và phát triển cùng hàng ngàn developer khác
+                    Tra cứu  chính xác, đóng góp cộng đồng,<br>
+                    học tập và phát triển cùng hàng ngàn người dùng khác
                 </p>
                 <div class="hero-cta">
                     <a href="${pageContext.request.contextPath}/login.jsp" class="btn-primary">
@@ -71,12 +71,12 @@
                 <div class="hero-stats">
                     <div class="stat-item">
                         <div class="stat-number">1,000+</div>
-                        <div class="stat-label">Thuật ngữ IT</div>
+                        <div class="stat-label">Thuật ngữ </div>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
                         <div class="stat-number">500+</div>
-                        <div class="stat-label">Developer</div>
+                        <div class="stat-label">users</div>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
@@ -91,22 +91,22 @@
                 <div class="visual-card card-1">
                     <div class="card-icon">🔍</div>
                     <div class="card-text">
-                        <strong>Algorithm</strong><br>
-                        Thuật toán
+                        <strong>Khoa Học</strong><br>
+                        Science
                     </div>
                 </div>
                 <div class="visual-card card-2">
                     <div class="card-icon">💻</div>
                     <div class="card-text">
-                        <strong>Backend</strong><br>
-                        Phần máy chủ
+                        <strong>Đời Sống</strong><br>
+                        life style
                     </div>
                 </div>
                 <div class="visual-card card-3">
                     <div class="card-icon">⚡</div>
                     <div class="card-text">
-                        <strong>API</strong><br>
-                        Giao diện lập trình ứng dụng
+                        <strong>Coding</strong><br>
+                        Lập trình
                     </div>
                 </div>
             </div>
@@ -118,14 +118,14 @@
         <div class="section-container">
             <div class="section-header">
                 <h2 class="section-title">Tính năng nổi bật</h2>
-                <p class="section-subtitle">Mọi thứ bạn cần để tra cứu và học thuật ngữ IT hiệu quả</p>
+                <p class="section-subtitle">Mọi thứ bạn cần để tra cứu và học thuật ngữ hiệu quả</p>
             </div>
             
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">📚</div>
                     <h3 class="feature-title">Từ điển chuyên ngành</h3>
-                    <p class="feature-desc">Tập trung vào thuật ngữ lập trình, công nghệ thông tin và Software Engineering với định nghĩa chính xác</p>
+                    <p class="feature-desc">Tập trung vào  với định nghĩa chính xác</p>
                 </div>
                 
                 <div class="feature-card">
@@ -184,7 +184,7 @@
                     <div class="step-number">2</div>
                     <div class="step-content">
                         <h3 class="step-title">Tra cứu từ vựng</h3>
-                        <p class="step-desc">Tìm kiếm thuật ngữ IT bất cứ lúc nào, mọi nơi</p>
+                        <p class="step-desc">Tìm kiếm sử dụng từ điển của cá nhân bạn bất cứ lúc nào, mọi nơi</p>
                     </div>
                 </div>
                 
@@ -208,12 +208,12 @@
                 <div class="about-text">
                     <h2 class="section-title">Về Eden Dictionary</h2>
                     <p class="about-description">
-                        Eden Dictionary là dự án từ điển Anh-Việt chuyên ngành IT được xây dựng 
-                        <strong>bởi developer, vì developer</strong>. Chúng tôi hiểu rằng việc tra cứu 
-                        thuật ngữ lập trình chính xác là vô cùng quan trọng trong quá trình học tập và làm việc.
+                        Eden Dictionary là dự án từ điển cá nhân được xây dựng 
+                        <strong>bởi developer, vì users</strong>. Chúng tôi hiểu rằng việc tra cứu 
+                        thuật ngữ  chính xác là vô cùng quan trọng trong quá trình học tập và làm việc.
                     </p>
                     <p class="about-description">
-                        Với sứ mệnh <strong>giúp developer Việt Nam tiếp cận kiến thức công nghệ dễ dàng hơn</strong>, 
+                        Với sứ mệnh <strong>giúp người dân Việt Nam tiếp cận kiến thức thế giới ngôn ngữ dễ dàng hơn</strong>, 
                         chúng tôi tập trung vào việc cung cấp định nghĩa chính xác, dễ hiểu và cập nhật liên tục 
                         từ cộng đồng.
                     </p>
@@ -230,7 +230,7 @@
                             <div class="feature-check">✓</div>
                             <div>
                                 <strong>Cộng đồng</strong>
-                                <p>Mọi developer đều có thể đóng góp</p>
+                                <p>Mọi users đều có thể đóng góp</p>
                             </div>
                         </div>
                         <div class="about-feature-item">
@@ -247,7 +247,7 @@
                     <div class="about-stats-card">
                         <div class="stat-big">
                             <div class="stat-big-number">1,000+</div>
-                            <div class="stat-big-label">Thuật ngữ IT</div>
+                            <div class="stat-big-label">Thuật ngữ</div>
                         </div>
                         <div class="stat-big">
                             <div class="stat-big-number">500+</div>
@@ -335,7 +335,7 @@
     <section class="cta-section">
         <div class="cta-container">
             <h2 class="cta-title">Sẵn sàng bắt đầu?</h2>
-            <p class="cta-subtitle">Tham gia cùng hàng trăm developer đang sử dụng Eden Dictionary</p>
+            <p class="cta-subtitle">Tham gia cùng hàng trăm users đang sử dụng Eden Dictionary</p>
             <a href="${pageContext.request.contextPath}/login.jsp" class="btn-cta">
                 Đăng nhập ngay
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -352,8 +352,8 @@
                 <div class="footer-section">
                     <h3 class="footer-title">Về Eden Dictionary</h3>
                     <p class="footer-text">
-                        Từ điển Anh-Việt chuyên ngành IT dành cho Software Engineer Việt Nam.
-                        Được xây dựng bởi developer, vì developer.
+                        Từ điển Anh-Việt chuyên ngành IT dành cho Việt Nam.
+                        Được xây dựng bởi developer, vì users.
                     </p>
                 </div>
                 

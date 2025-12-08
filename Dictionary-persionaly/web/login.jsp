@@ -30,9 +30,7 @@
             <div class="eden-content">
                 <h2 class="tagline">The workspace for creatives</h2>
                 <div class="description">
-                    <p>Capture anything. Remember everything.</p>
-                    <p>"A specialized dictionary for Intelligent Engineering"</p>
-                </div>
+                    <p>Capture anything. Remember everything.</p>                </div>
                 <c:if test="${not empty error}">
                     <div class="error-message" id="errorMessage">
                         <svg class="error-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">

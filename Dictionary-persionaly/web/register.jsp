@@ -31,7 +31,7 @@
                 <h2 class="tagline">Tạo tài khoản mới</h2>
                 <div class="description">
                     <p>Đăng ký để bắt đầu sử dụng Eden Dictionary</p>
-                    <p>Từ điển IT chuyên nghiệp cho Developer</p>
+                    <p>Từ điển cá nhân hóa chuyên nghiệp</p>
                 </div>
                 
                 <c:if test="${not empty error}">
