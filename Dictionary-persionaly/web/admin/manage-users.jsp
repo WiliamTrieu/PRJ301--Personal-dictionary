@@ -394,13 +394,236 @@
         }
     </style>
     
-    <script>
-        function resetPassword(userId, email) {
-            if (confirm('Bạn có chắc muốn reset mật khẩu cho user "' + email + '"?')) {
-                // TODO: Implement reset password functionality
-                alert('Chức năng reset mật khẩu sẽ được triển khai sau.');
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔄 Reset Mật Khẩu</h2>
+                <button class="modal-close" onclick="closeResetModal()">&times;</button>
+            </div>
+            <form action="${pageContext.request.contextPath}/admin/UserManagementServlet" method="POST" class="modal-form" id="resetPasswordForm">
+                <input type="hidden" name="action" value="resetPassword">
+                <input type="hidden" name="userId" id="resetUserId">
+                
+                <div class="modal-body">
+                    <p style="color: #374151; margin-bottom: 20px;">
+                        Đang reset mật khẩu cho user: <strong id="resetUsername"></strong>
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="newPassword" class="form-label">
+                            🔐 Mật khẩu mới <span style="color: #dc2626;">*</span>
+                        </label>
+                        <input type="text" 
+                               id="newPassword" 
+                               name="newPassword" 
+                               class="form-input" 
+                               placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"
+                               required
+                               minlength="6">
+                        <div class="input-hint">
+                            ⚠️ Mật khẩu sẽ được hiển thị plain text để bạn copy và gửi cho user
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeResetModal()">Hủy</button>
+                    <button type="submit" class="btn-primary">✅ Reset Mật Khẩu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease-out;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #1f4529;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 6px;
+            font-size: 24px;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .modal-form .form-group {
+            margin-bottom: 0;
+        }
+        
+        .modal-form .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .modal-form .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .modal-form .form-input:focus {
+            outline: none;
+            border-color: #2d5a3d;
+            box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.1);
+        }
+        
+        .input-hint {
+            font-size: 12px;
+            color: #dc2626;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .btn-primary,
+        .btn-secondary {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2d5a3d 0%, #1f4529 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 90, 61, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .btn-secondary:hover {
+            background: #f3f4f6;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
+    </style>
+    
+    <script>
+        function resetPassword(userId, username) {
+            // Set form data
+            document.getElementById('resetUserId').value = userId;
+            document.getElementById('resetUsername').textContent = username;
+            document.getElementById('newPassword').value = '';
+            
+            // Show modal
+            document.getElementById('resetPasswordModal').classList.add('active');
+        }
+        
+        function closeResetModal() {
+            document.getElementById('resetPasswordModal').classList.remove('active');
+        }
+        
+        // Close modal khi click bên ngoài
+        window.onclick = function(event) {
+            const modal = document.getElementById('resetPasswordModal');
+            if (event.target === modal) {
+                closeResetModal();
+            }
+        }
+        
+        // Close modal khi nhấn ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeResetModal();
+            }
+        });
     </script>
 </body>
 </html>

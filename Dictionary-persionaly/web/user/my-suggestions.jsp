@@ -19,6 +19,11 @@
         <c:redirect url="${pageContext.request.contextPath}/login.jsp"/>
     </c:if>
     
+    <%-- Redirect về Servlet nếu truy cập trực tiếp JSP (không có totalCount) --%>
+    <c:if test="${totalCount == null}">
+        <c:redirect url="${pageContext.request.contextPath}/SuggestionServlet?action=my-suggestions"/>
+    </c:if>
+    
     <jsp:include page="../includes/header.jsp"/>
     
     <main class="main-content">

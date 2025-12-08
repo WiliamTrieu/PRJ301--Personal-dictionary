@@ -80,7 +80,7 @@
                             <span class="checkmark"></span>
                             <span class="remember-text">Ghi nhớ đăng nhập</span>
                         </label>
-                        <a href="#" class="forgot-password-link">Quên mật khẩu?</a>
+                        <a href="${pageContext.request.contextPath}/ForgotPasswordServlet" class="forgot-password-link">Quên mật khẩu?</a>
                     </div>
                     <button type="submit" class="waitlist-btn" id="submitBtn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">

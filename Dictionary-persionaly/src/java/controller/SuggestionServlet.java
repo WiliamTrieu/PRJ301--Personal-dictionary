@@ -35,22 +35,60 @@ public class SuggestionServlet extends HttpServlet {
         String action = request.getParameter("action");
         
         if ("my-suggestions".equals(action)) {
-            // Hiển thị danh sách đề xuất của user
+            // ===== XEM DANH SÁCH ĐỀ XUẤT CỦA USER =====
             int userId = (Integer) session.getAttribute("userId");
             WordSuggestionDAO dao = new WordSuggestionDAO();
-            List<WordSuggestion> suggestions = dao.getSuggestionsByUser(userId);
             
-            // Filter theo status nếu có
+            // Lấy status filter từ parameter
             String statusFilter = request.getParameter("status");
+            
+            // Lấy suggestions theo filter
+            List<WordSuggestion> suggestions;
             if (statusFilter != null && !statusFilter.trim().isEmpty()) {
-                suggestions.removeIf(s -> !statusFilter.equalsIgnoreCase(s.getStatus()));
+                // Filter theo status cụ thể
+                suggestions = dao.getSuggestionsByUserAndStatus(userId, statusFilter.trim());
+            } else {
+                // Lấy TẤT CẢ (không filter)
+                suggestions = dao.getSuggestionsByUser(userId);
             }
             
+            // ===== TÍNH TOÁN STATISTICS =====
+            // Lấy tất cả suggestions để đếm
+            List<WordSuggestion> allSuggestions = dao.getSuggestionsByUser(userId);
+            
+            int totalCount = allSuggestions.size();
+            int pendingCount = 0;
+            int approvedCount = 0;
+            int rejectedCount = 0;
+            
+            for (WordSuggestion s : allSuggestions) {
+                switch (s.getStatus().toLowerCase()) {
+                    case "pending":
+                        pendingCount++;
+                        break;
+                    case "approved":
+                        approvedCount++;
+                        break;
+                    case "rejected":
+                        rejectedCount++;
+                        break;
+                }
+            }
+            
+            // Set attributes
             request.setAttribute("suggestions", suggestions);
             request.setAttribute("statusFilter", statusFilter);
+            
+            // Statistics
+            request.setAttribute("totalCount", totalCount);
+            request.setAttribute("pendingCount", pendingCount);
+            request.setAttribute("approvedCount", approvedCount);
+            request.setAttribute("rejectedCount", rejectedCount);
+            
             request.getRequestDispatcher("user/my-suggestions.jsp").forward(request, response);
+            
         } else {
-            // Hiển thị form đề xuất
+            // Hiển thị form đề xuất mới
             String prefillWord = request.getParameter("word");
             if (prefillWord != null) {
                 request.setAttribute("prefillWord", prefillWord);

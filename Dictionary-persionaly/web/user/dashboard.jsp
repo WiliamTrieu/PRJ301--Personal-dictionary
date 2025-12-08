@@ -44,7 +44,7 @@
                 <div class="menu-item-title">➕ Đề xuất từ mới</div>
                 <div class="menu-item-desc">Đề xuất từ chưa có trong từ điển</div>
             </a>
-            <a href="${pageContext.request.contextPath}/user/my-suggestions.jsp" class="menu-item">
+            <a href="${pageContext.request.contextPath}/SuggestionServlet?action=my-suggestions" class="menu-item">
                 <div class="menu-item-title">📝 Đề xuất của tôi</div>
                 <div class="menu-item-desc">Xem trạng thái đề xuất đã gửi</div>
             </a>
