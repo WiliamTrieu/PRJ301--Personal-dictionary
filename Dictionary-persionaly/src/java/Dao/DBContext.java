@@ -14,7 +14,7 @@ public class DBContext {
     
     // Thông tin kết nối database
     private static final String SERVER_NAME = "localhost";
-    private static final String DATABASE_NAME = "Spring";
+    private static final String DATABASE_NAME = "Spring1";
     private static final String PORT = "1433"; // Port mặc định của SQL Server
     private static final String USERNAME = "sa"; // Thay bằng username của bạn
     private static final String PASSWORD = "123"; // Thay bằng password của bạn

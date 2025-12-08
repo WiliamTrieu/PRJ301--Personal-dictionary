@@ -75,12 +75,12 @@
                                     <c:forEach var="userStat" items="${usersWithStats}">
                                         <tr>
                                             <td class="text-center">${userStat.userId}</td>
-                                            <td class="account-cell">${userStat.email}</td>
+                                            <td class="account-cell">${userStat.username}</td>
                                             <td>${userStat.fullName != null ? userStat.fullName : '-'}</td>
                                             <td class="password-cell">
                                                 <span class="password-hidden">********</span>
                                                 <button type="button" class="reset-password-btn" 
-                                                        onclick="resetPassword(${userStat.userId}, '${userStat.email}')" 
+                                                        onclick="resetPassword(${userStat.userId}, '${userStat.username}')" 
                                                         title="Reset mật khẩu">
                                                     🔄 Reset
                                                 </button>

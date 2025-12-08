@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Form elements
     const form = document.getElementById('registerForm');
-    const emailInput = document.getElementById('email');
+    const usernameInput = document.getElementById('username');
     const fullNameInput = document.getElementById('fullName');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirmPassword');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submitBtn');
     
     // Error elements
-    const emailError = document.getElementById('emailError');
+    const usernameError = document.getElementById('usernameError');
     const fullNameError = document.getElementById('fullNameError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateStrengthUI(strength);
     });
     
-    // Email validation
-    emailInput.addEventListener('blur', validateEmail);
-    emailInput.addEventListener('input', function() {
-        if (emailInput.style.borderColor === 'rgb(220, 38, 38)') {
-            emailInput.style.borderColor = '#e5e7eb';
-            emailError.textContent = '';
+    // Username validation
+    usernameInput.addEventListener('blur', validateUsername);
+    usernameInput.addEventListener('input', function() {
+        if (usernameInput.style.borderColor === 'rgb(220, 38, 38)') {
+            usernameInput.style.borderColor = '#e5e7eb';
+            usernameError.textContent = '';
         }
     });
     
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearAllErrors();
         
         // Validate all fields
-        if (!validateEmail()) isValid = false;
+        if (!validateUsername()) isValid = false;
         if (!validateFullName()) isValid = false;
         if (!validatePassword()) isValid = false;
         if (!validateConfirmPassword()) isValid = false;
@@ -111,21 +111,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Validation functions
-    function validateEmail() {
-        const email = emailInput.value.trim();
+    function validateUsername() {
+        const username = usernameInput.value.trim();
         
-        if (!email) {
-            setError(emailInput, emailError, 'Vui lòng nhập email');
+        if (!username) {
+            setError(usernameInput, usernameError, 'Vui lòng nhập tên đăng nhập');
             return false;
         }
         
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setError(emailInput, emailError, 'Email không hợp lệ');
+        if (username.length < 3 || username.length > 50) {
+            setError(usernameInput, usernameError, 'Tên đăng nhập phải có 3-50 ký tự');
             return false;
         }
         
-        clearError(emailInput, emailError);
+        const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+        if (!usernameRegex.test(username)) {
+            setError(usernameInput, usernameError, 'Chỉ được chứa chữ, số, gạch dưới và gạch ngang');
+            return false;
+        }
+        
+        clearError(usernameInput, usernameError);
         return true;
     }
     
@@ -277,12 +282,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function clearAllErrors() {
-        emailError.textContent = '';
+        usernameError.textContent = '';
         fullNameError.textContent = '';
         passwordError.textContent = '';
         confirmPasswordError.textContent = '';
         
-        emailInput.style.borderColor = '#e5e7eb';
+        usernameInput.style.borderColor = '#e5e7eb';
         fullNameInput.style.borderColor = '#e5e7eb';
         passwordInput.style.borderColor = '#e5e7eb';
         confirmPasswordInput.style.borderColor = '#e5e7eb';

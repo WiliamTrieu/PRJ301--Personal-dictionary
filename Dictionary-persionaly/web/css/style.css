@@ -28,19 +28,18 @@ body.login-page {
 /* Card Eden */
 .eden-card {
     background: #ffffff;
-    border-radius: 24px;
-    padding: 48px 40px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     text-align: center;
     position: relative;
-    animation: fadeInUp 0.8s ease-out;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+    animation: fadeInUp 0.6s ease-out;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .eden-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 35px 60px rgba(0, 0, 0, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
 }
 
 @keyframes fadeInUp {
@@ -60,7 +59,7 @@ body.login-page {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .logo-icon {
@@ -108,8 +107,8 @@ body.login-page {
 .description {
     color: #6b7280;
     font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 32px;
+    line-height: 1.5;
+    margin-bottom: 18px;
 }
 
 .description p {
@@ -120,27 +119,32 @@ body.login-page {
 .waitlist-form {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 24px;
+    gap: 0;
+    margin-bottom: 16px;
 }
 
 .email-input-container {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .email-icon {
     position: absolute;
     left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 2;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
 
 .email-input-container input {
     width: 100%;
-    padding: 16px 16px 16px 48px;
+    padding: 12px 14px 12px 44px;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 15px;
     color: #374151;
     background: #ffffff;
     transition: all 0.3s ease;
@@ -159,15 +163,15 @@ body.login-page {
 /* Password Input Container */
 .password-input-container {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .password-input-container input {
     width: 100%;
-    padding: 16px 48px 16px 48px;
+    padding: 12px 44px 12px 44px;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 15px;
     color: #374151;
     background: #ffffff;
     transition: all 0.3s ease;
@@ -187,6 +191,8 @@ body.login-page {
 .password-toggle {
     position: absolute;
     right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
@@ -197,14 +203,16 @@ body.login-page {
     color: #6b7280;
     transition: all 0.2s ease;
     z-index: 3;
+    border-radius: 6px;
 }
 
 .password-toggle:hover {
     color: #2d5a3d;
+    background: #f3f4f6;
 }
 
 .password-toggle:active {
-    transform: scale(0.95);
+    transform: translateY(-50%) scale(0.95);
 }
 
 .eye-icon {
@@ -212,40 +220,35 @@ body.login-page {
     height: 20px;
     stroke: currentColor;
     fill: none;
+    flex-shrink: 0;
 }
 
-/* Input Error Messages */
+/* Login button icon sizing */
+.waitlist-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* Input Error Messages - SIMPLE TEXT ONLY */
 .input-error {
     display: block;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
     color: #dc2626;
-    margin-top: 8px;
-    padding: 8px 12px;
-    background: #fee2e2;
-    border-left: 3px solid #dc2626;
-    border-radius: 6px;
-    line-height: 1.5;
-    animation: errorSlideDown 0.3s ease-out;
+    margin-top: 2px;
+    padding-left: 2px;
+    line-height: 1.1;
+    min-height: 0;
 }
 
 .input-error:empty {
     display: none;
-    margin: 0;
-    padding: 0;
 }
 
-@keyframes errorSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-        max-height: 0;
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-        max-height: 100px;
-    }
+@keyframes errorSlideIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes fadeIn {
@@ -317,8 +320,8 @@ body.login-page {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: -8px;
-    margin-bottom: 4px;
+    margin-top: 2px;
+    margin-bottom: 10px;
 }
 
 /* Remember Me Checkbox */
@@ -419,21 +422,18 @@ body.login-page {
 
 /* Password Strength Indicator */
 .password-strength {
-    margin-top: 8px;
-    margin-bottom: 16px;
-    padding: 8px 12px;
-    background: #f9fafb;
-    border-radius: 6px;
-    border: 1px solid #e5e7eb;
+    margin-top: -14px;
+    margin-bottom: 6px;
+    padding: 3px 0;
 }
 
 .strength-bar {
     width: 100%;
-    height: 4px;
+    height: 2px;
     background: #e5e7eb;
-    border-radius: 2px;
+    border-radius: 1px;
     overflow: hidden;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 }
 
 .strength-bar-fill {
@@ -444,8 +444,8 @@ body.login-page {
 }
 
 .strength-text {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 500;
     text-align: right;
     transition: color 0.3s ease;
 }
@@ -641,37 +641,95 @@ body.login-page {
     }
 }
 
-/* Responsive Design */
+/* Responsive Design - Viewport Height Aware */
+@media (max-height: 800px) {
+    .eden-card {
+        padding: 24px 20px;
+    }
+    
+    .eden-logo {
+        margin-bottom: 16px;
+    }
+    
+    .description {
+        margin-bottom: 14px;
+        font-size: 13px;
+    }
+    
+    .email-input-container,
+    .password-input-container {
+        margin-bottom: 8px;
+    }
+    
+    .email-input-container input,
+    .password-input-container input {
+        padding: 10px 12px 10px 40px;
+        font-size: 14px;
+    }
+    
+    .password-input-container input {
+        padding-right: 40px;
+    }
+    
+    .input-error {
+        font-size: 10px;
+        margin-top: 1px;
+    }
+    
+    .password-strength {
+        margin-top: -12px;
+        margin-bottom: 4px;
+    }
+    
+    .form-options {
+        margin-top: 0;
+        margin-bottom: 8px;
+    }
+    
+    .waitlist-form {
+        margin-bottom: 12px;
+    }
+}
+
 @media (max-width: 640px) {
     .eden-container {
-        padding: 16px;
+        padding: 12px;
     }
     
     .eden-card {
-        padding: 40px 32px;
+        padding: 32px 24px;
     }
     
     .brand-name {
-        font-size: 24px;
+        font-size: 22px;
     }
     
     .tagline {
         font-size: 18px;
     }
+    
+    .eden-logo {
+        margin-bottom: 18px;
+    }
+    
+    .description {
+        margin-bottom: 16px;
+    }
 }
 
 @media (max-width: 480px) {
     .eden-card {
-        padding: 32px 24px;
+        padding: 28px 20px;
+        border-radius: 16px;
     }
     
     .eden-logo {
         gap: 8px;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
     }
     
     .brand-name {
-        font-size: 22px;
+        font-size: 20px;
     }
     
     .tagline {
@@ -680,49 +738,68 @@ body.login-page {
     
     .description {
         font-size: 13px;
+        margin-bottom: 14px;
     }
     
     .email-input-container input,
-    .password-input-container input,
+    .password-input-container input {
+        padding: 11px 14px 11px 42px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+    
+    .password-input-container input {
+        padding-right: 42px;
+    }
+    
     .waitlist-btn {
-        padding: 14px 16px;
+        padding: 13px 20px;
         font-size: 15px;
-    }
-    
-    .email-input-container input,
-    .password-input-container input {
-        padding-left: 44px;
-    }
-    
-    .password-input-container input {
-        padding-right: 44px;
+        border-radius: 10px;
     }
     
     .form-options {
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: 8px;
+        margin-top: 0;
+        margin-bottom: 8px;
     }
     
     .forgot-password-link {
         align-self: flex-end;
+        font-size: 13px;
     }
     
     /* Error messages responsive */
     .input-error {
-        font-size: 12px;
-        padding: 6px 10px;
-        margin-top: 6px;
+        font-size: 10px;
+        margin-top: 3px;
     }
     
     .email-input-container,
     .password-input-container {
-        margin-bottom: 16px;
+        margin-bottom: 8px;
     }
     
     .password-strength {
-        padding: 6px 10px;
-        font-size: 11px;
+        margin-top: -12px;
+        margin-bottom: 4px;
+        padding: 3px 0;
+    }
+    
+    .strength-text {
+        font-size: 9px;
+    }
+    
+    .strength-bar {
+        height: 2px;
+        margin-bottom: 2px;
+    }
+    
+    .remember-text {
+        font-size: 13px;
+        line-height: 1.3;
     }
 }
 

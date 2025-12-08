@@ -22,14 +22,14 @@ public class UserDAO {
     
     /**
      * Xác thực user (login)
-     * @param email Email của user
+     * @param username Username của user
      * @param password Password (plain text - sẽ hash sau)
      * @return User object nếu đăng nhập thành công, null nếu thất bại
      */
-    public User authenticate(String email, String password) {
-        String sql = "SELECT user_id, email, password, full_name, role, status " +
+    public User authenticate(String username, String password) {
+        String sql = "SELECT user_id, username, password, full_name, role, status " +
                      "FROM Users " +
-                     "WHERE email = ? AND password = ? AND status = 1";
+                     "WHERE username = ? AND password = ? AND status = 1";
         
         Connection conn = null;
         PreparedStatement ps = null;
@@ -38,7 +38,7 @@ public class UserDAO {
         try {
             conn = dbContext.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setString(1, email);
+            ps.setString(1, username);
             ps.setString(2, password); // TODO: Hash password trước khi so sánh
             
             rs = ps.executeQuery();
@@ -46,7 +46,7 @@ public class UserDAO {
             if (rs.next()) {
                 User user = new User();
                 user.setUserId(rs.getInt("user_id"));
-                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password")); // Không nên trả về password trong production
                 user.setFullName(rs.getString("full_name"));
                 user.setRole(rs.getString("role"));
@@ -73,14 +73,14 @@ public class UserDAO {
     }
     
     /**
-     * Lấy user theo email
-     * @param email Email của user
+     * Lấy user theo username
+     * @param username Username của user
      * @return User object hoặc null nếu không tìm thấy
      */
-    public User getUserByEmail(String email) {
-        String sql = "SELECT user_id, email, full_name, role, status, created_at, updated_at " +
+    public User getUserByUsername(String username) {
+        String sql = "SELECT user_id, username, full_name, role, status, created_at, updated_at " +
                      "FROM Users " +
-                     "WHERE email = ?";
+                     "WHERE username = ?";
         
         Connection conn = null;
         PreparedStatement ps = null;
@@ -89,14 +89,14 @@ public class UserDAO {
         try {
             conn = dbContext.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setString(1, email);
+            ps.setString(1, username);
             
             rs = ps.executeQuery();
             
             if (rs.next()) {
                 User user = new User();
                 user.setUserId(rs.getInt("user_id"));
-                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
                 user.setFullName(rs.getString("full_name"));
                 user.setRole(rs.getString("role"));
                 user.setStatus(rs.getBoolean("status"));
@@ -107,7 +107,7 @@ public class UserDAO {
             }
             
         } catch (SQLException e) {
-            System.err.println("Error in UserDAO.getUserByEmail: " + e.getMessage());
+            System.err.println("Error in UserDAO.getUserByUsername: " + e.getMessage());
             e.printStackTrace();
         } finally {
             try {
@@ -128,7 +128,7 @@ public class UserDAO {
      * @return User object hoặc null nếu không tìm thấy
      */
     public User getUserById(int userId) {
-        String sql = "SELECT user_id, email, full_name, role, status, created_at, updated_at " +
+        String sql = "SELECT user_id, username, full_name, role, status, created_at, updated_at " +
                      "FROM Users " +
                      "WHERE user_id = ?";
         
@@ -146,7 +146,7 @@ public class UserDAO {
             if (rs.next()) {
                 User user = new User();
                 user.setUserId(rs.getInt("user_id"));
-                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
                 user.setFullName(rs.getString("full_name"));
                 user.setRole(rs.getString("role"));
                 user.setStatus(rs.getBoolean("status"));
@@ -214,7 +214,7 @@ public class UserDAO {
      */
     public java.util.List<model.User> getAllUsers() {
         java.util.List<model.User> users = new java.util.ArrayList<>();
-        String sql = "SELECT user_id, email, password, full_name, role, status, created_at, updated_at " +
+        String sql = "SELECT user_id, username, password, full_name, role, status, created_at, updated_at " +
                      "FROM Users " +
                      "ORDER BY created_at DESC";
         
@@ -230,7 +230,7 @@ public class UserDAO {
             while (rs.next()) {
                 model.User user = new model.User();
                 user.setUserId(rs.getInt("user_id"));
-                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setFullName(rs.getString("full_name"));
                 user.setRole(rs.getString("role"));
@@ -255,6 +255,81 @@ public class UserDAO {
         }
         
         return users;
+    }
+    
+    /**
+     * Đăng ký user mới
+     * @param username Username
+     * @param password Password (plain text - sẽ hash trong code)
+     * @param fullName Họ và tên
+     * @return true nếu đăng ký thành công, false nếu thất bại
+     */
+    public boolean registerUser(String username, String password, String fullName) {
+        String sql = "INSERT INTO Users (username, password, full_name, role) VALUES (?, ?, ?, 'user')";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password); // TODO: Hash password trước khi lưu
+            ps.setString(3, fullName);
+            
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+            
+        } catch (SQLException e) {
+            System.err.println("Error in UserDAO.registerUser: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Kiểm tra username đã tồn tại chưa
+     * @param username Username cần kiểm tra
+     * @return true nếu đã tồn tại, false nếu chưa
+     */
+    public boolean isUsernameExists(String username) {
+        String sql = "SELECT COUNT(*) as count FROM Users WHERE username = ?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt("count") > 0;
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Error in UserDAO.isUsernameExists: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+        
+        return false;
     }
 }
 

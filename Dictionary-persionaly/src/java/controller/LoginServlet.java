@@ -26,11 +26,11 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         
         // Lấy thông tin từ form
-        String email = request.getParameter("email");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
         
         // Validate input
-        if (email == null || email.trim().isEmpty() || 
+        if (username == null || username.trim().isEmpty() || 
             password == null || password.trim().isEmpty()) {
             request.setAttribute("error", "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
         
         // Authenticate user
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.authenticate(email.trim(), password);
+        User user = userDAO.authenticate(username.trim(), password);
         
         if (user != null) {
             // Đăng nhập thành công
@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("userId", user.getUserId());
-            session.setAttribute("email", user.getEmail());
+            session.setAttribute("username", user.getUsername());
             session.setAttribute("fullName", user.getFullName());
             session.setAttribute("role", user.getRole());
             
@@ -70,9 +70,9 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/user/dashboard.jsp");
             }
         } else {
-            // Đăng nhập thất bại - không cho biết cụ thể là email hay password sai
+            // Đăng nhập thất bại - không cho biết cụ thể là username hay password sai
             request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại!");
-            request.setAttribute("email", email); // Giữ lại email để user không phải nhập lại
+            request.setAttribute("username", username); // Giữ lại username để user không phải nhập lại
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 public class User {
     private int userId;
-    private String email;
+    private String username;  // Thay email bằng username
     private String password;
     private String fullName;
     private String role; // "admin" hoặc "user"
@@ -21,10 +21,10 @@ public class User {
     public User() {
     }
     
-    public User(int userId, String email, String password, String fullName, 
+    public User(int userId, String username, String password, String fullName, 
                 String role, boolean status, Timestamp createdAt, Timestamp updatedAt) {
         this.userId = userId;
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.fullName = fullName;
         this.role = role;
@@ -34,9 +34,9 @@ public class User {
     }
     
     // Constructor cho login (không cần tất cả fields)
-    public User(int userId, String email, String fullName, String role, boolean status) {
+    public User(int userId, String username, String fullName, String role, boolean status) {
         this.userId = userId;
-        this.email = email;
+        this.username = username;
         this.fullName = fullName;
         this.role = role;
         this.status = status;
@@ -51,12 +51,12 @@ public class User {
         this.userId = userId;
     }
     
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
     
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     public String getPassword() {
@@ -120,7 +120,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", role='" + role + '\'' +
                 ", status=" + status +

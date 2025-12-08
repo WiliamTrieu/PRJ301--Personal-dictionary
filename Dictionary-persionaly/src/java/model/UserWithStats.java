@@ -41,8 +41,8 @@ public class UserWithStats {
         return user != null ? user.getUserId() : 0;
     }
     
-    public String getEmail() {
-        return user != null ? user.getEmail() : "";
+    public String getUsername() {
+        return user != null ? user.getUsername() : "";
     }
     
     public String getFullName() {

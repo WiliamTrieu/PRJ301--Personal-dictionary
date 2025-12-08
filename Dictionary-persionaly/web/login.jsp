@@ -56,8 +56,8 @@
                         <svg class="email-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
                             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#9CA3AF"/>
                         </svg>
-                        <input type="text" id="email" name="email" placeholder="Tên đăng nhập hoặc Email" value="${param.email != null ? param.email : ''}" required autocomplete="username">
-                        <div class="input-error" id="emailError"></div>
+                        <input type="text" id="username" name="username" placeholder="Tên đăng nhập" value="${param.username != null ? param.username : ''}" required autocomplete="username">
+                        <div class="input-error" id="usernameError"></div>
                     </div>
                     <div class="password-input-container">
                         <svg class="email-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
