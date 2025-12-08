@@ -80,6 +80,18 @@
                                         </c:if>
                                     </div>
                                 </c:if>
+                                
+                                <!-- Suggest Edit Button -->
+                                <div class="word-actions">
+                                    <button onclick="suggestEdit(${word.wordId}, '${word.wordEnglish}', '${word.wordVietnamese}', '${word.pronunciation}', '${word.wordType}', `${word.exampleSentence}`, `${word.exampleTranslation}`)" 
+                                            class="edit-suggestion-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Đề xuất chỉnh sửa
+                                    </button>
+                                </div>
                             </div>
                         </c:forEach>
                     </div>
@@ -248,7 +260,59 @@
             background: #2d5a3d;
             color: white;
         }
+        
+        /* Suggest Edit Button Styles */
+        .word-actions {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(45, 90, 61, 0.1);
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .edit-suggestion-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        .edit-suggestion-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+        }
+        
+        .edit-suggestion-btn:active {
+            transform: translateY(0);
+        }
     </style>
+    
+    <script>
+        function suggestEdit(wordId, wordEnglish, wordVietnamese, pronunciation, wordType, exampleSentence, exampleTranslation) {
+            // Encode parameters properly
+            const params = new URLSearchParams({
+                wordId: wordId,
+                wordEnglish: wordEnglish || '',
+                wordVietnamese: wordVietnamese || '',
+                pronunciation: pronunciation || '',
+                wordType: wordType || '',
+                exampleSentence: exampleSentence || '',
+                exampleTranslation: exampleTranslation || ''
+            });
+            
+            // Redirect to suggest-edit page
+            window.location.href = '${pageContext.request.contextPath}/user/suggest-edit.jsp?' + params.toString();
+        }
+    </script>
 </body>
 </html>
 

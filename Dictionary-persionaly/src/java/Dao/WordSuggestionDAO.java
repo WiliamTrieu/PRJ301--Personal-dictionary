@@ -327,6 +327,76 @@ public class WordSuggestionDAO {
     }
     
     /**
+     * Tạo đề xuất CHỈNH SỬA từ có sẵn
+     * @param originalWordId ID của từ gốc trong Dictionary
+     * @param wordEnglish Từ tiếng Anh (không đổi)
+     * @param wordVietnamese Nghĩa tiếng Việt (đã sửa)
+     * @param pronunciation Phiên âm (đã sửa)
+     * @param wordType Loại từ (đã sửa)
+     * @param exampleSentence Câu ví dụ (đã sửa)
+     * @param exampleTranslation Bản dịch (đã sửa)
+     * @param userId ID của user đề xuất
+     * @return true nếu thành công, false nếu thất bại
+     */
+    public boolean createEditSuggestion(int originalWordId, String wordEnglish, 
+                                       String wordVietnamese, String pronunciation,
+                                       String wordType, String exampleSentence,
+                                       String exampleTranslation, int userId) {
+        String sql = "INSERT INTO WordSuggestions " +
+                     "(original_word_id, suggestion_type, word_english, word_vietnamese, " +
+                     "pronunciation, word_type, example_sentence, example_translation, " +
+                     "suggested_by, status) " +
+                     "VALUES (?, 'edit', ?, ?, ?, ?, ?, ?, ?, 'pending')";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try {
+            conn = dbContext.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, originalWordId);
+            ps.setString(2, wordEnglish);
+            ps.setString(3, wordVietnamese);
+            ps.setString(4, pronunciation);
+            ps.setString(5, wordType);
+            ps.setString(6, exampleSentence);
+            ps.setString(7, exampleTranslation);
+            ps.setInt(8, userId);
+            
+            int rowsAffected = ps.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("✅ Edit suggestion created successfully for word ID: " + originalWordId);
+                return true;
+            }
+            
+            return false;
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Error in WordSuggestionDAO.createEditSuggestion: " + e.getMessage());
+            System.err.println("❌ SQL State: " + e.getSQLState());
+            e.printStackTrace();
+            
+            // Check if error is about missing columns
+            if (e.getMessage().contains("original_word_id") || 
+                e.getMessage().contains("suggestion_type") ||
+                e.getMessage().contains("Invalid column")) {
+                System.err.println("⚠️  HINT: Run database migration script!");
+                System.err.println("⚠️  Execute: database_migration_suggest_edit.sql");
+            }
+            
+            return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.err.println("Error closing resources: " + e.getMessage());
+            }
+        }
+    }
+    
+    /**
      * Helper method: Map ResultSet to WordSuggestion object
      */
     private WordSuggestion mapResultSetToSuggestion(ResultSet rs) throws SQLException {

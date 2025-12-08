@@ -22,6 +22,10 @@ public class WordSuggestion {
     private Timestamp createdAt;
     private Timestamp reviewedAt;
     
+    // NEW FIELDS for Suggest Edit feature
+    private String suggestionType; // 'new' or 'edit'
+    private Integer originalWordId; // ID of original word (for 'edit' type)
+    
     // Additional fields for display (joined from Users table)
     private String suggestedByName;
     private String reviewerName;
@@ -188,9 +192,34 @@ public class WordSuggestion {
         this.reviewerName = reviewerName;
     }
     
+    // Getters and Setters for NEW fields
+    public String getSuggestionType() {
+        return suggestionType;
+    }
+    
+    public void setSuggestionType(String suggestionType) {
+        this.suggestionType = suggestionType;
+    }
+    
+    public Integer getOriginalWordId() {
+        return originalWordId;
+    }
+    
+    public void setOriginalWordId(Integer originalWordId) {
+        this.originalWordId = originalWordId;
+    }
+    
     // Helper methods
     public boolean isPending() {
         return "pending".equalsIgnoreCase(this.status);
+    }
+    
+    public boolean isNew() {
+        return "new".equalsIgnoreCase(this.suggestionType);
+    }
+    
+    public boolean isEdit() {
+        return "edit".equalsIgnoreCase(this.suggestionType);
     }
     
     public boolean isApproved() {
