@@ -117,7 +117,7 @@
                             <button type="submit" class="submit-btn">
                                 💾 Lưu thay đổi
                             </button>
-                            <a href="${pageContext.request.contextPath}/admin/manage-words.jsp" class="cancel-btn">
+                            <a href="${pageContext.request.contextPath}/admin/ManageWordsServlet" class="cancel-btn">
                                 Hủy
                             </a>
                         </div>

@@ -43,17 +43,17 @@ public class AdminWordServlet extends HttpServlet {
                     Word word = wordDAO.getWordById(wordId);
                     if (word != null) {
                         request.setAttribute("word", word);
-                        request.getRequestDispatcher("../admin/edit-word.jsp").forward(request, response);
+                        request.getRequestDispatcher("/admin/edit-word.jsp").forward(request, response);
                     } else {
-                        request.setAttribute("error", "Không tìm thấy từ!");
-                        request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+                        session.setAttribute("errorMessage", "Không tìm thấy từ!");
+                        response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
                     }
                 } catch (NumberFormatException e) {
-                    request.setAttribute("error", "ID không hợp lệ!");
-                    request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+                    session.setAttribute("errorMessage", "ID không hợp lệ!");
+                    response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
                 }
             } else {
-                request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
             }
         } else if ("delete".equals(action)) {
             // Xóa từ
@@ -63,18 +63,22 @@ public class AdminWordServlet extends HttpServlet {
                     int wordId = Integer.parseInt(wordIdStr);
                     boolean success = wordDAO.deleteWord(wordId);
                     if (success) {
-                        request.setAttribute("success", "Xóa từ thành công!");
+                        // Redirect với success message (dùng session để giữ message)
+                        session.setAttribute("successMessage", "Xóa từ thành công!");
+                        response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
+                        return;
                     } else {
-                        request.setAttribute("error", "Có lỗi xảy ra khi xóa từ!");
+                        session.setAttribute("errorMessage", "Có lỗi xảy ra khi xóa từ!");
                     }
                 } catch (NumberFormatException e) {
-                    request.setAttribute("error", "ID không hợp lệ!");
+                    session.setAttribute("errorMessage", "ID không hợp lệ!");
                 }
             }
-            request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+            // Nếu có lỗi, redirect về ManageWordsServlet
+            response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
         } else {
-            // Hiển thị danh sách từ điển
-            request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+            // Default: Redirect về ManageWordsServlet
+            response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
         }
     }
     
@@ -115,8 +119,8 @@ public class AdminWordServlet extends HttpServlet {
             
             boolean success = wordDAO.insertWord(word);
             if (success) {
-                request.setAttribute("success", "Thêm từ thành công!");
-                request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+                session.setAttribute("successMessage", "Thêm từ thành công!");
+                response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
             } else {
                 request.setAttribute("error", "Có lỗi xảy ra khi thêm từ!");
                 request.setAttribute("wordEnglish", word.getWordEnglish());
@@ -125,14 +129,14 @@ public class AdminWordServlet extends HttpServlet {
                 request.setAttribute("wordType", word.getWordType());
                 request.setAttribute("exampleSentence", word.getExampleSentence());
                 request.setAttribute("exampleTranslation", word.getExampleTranslation());
-                request.getRequestDispatcher("../admin/add-word.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/add-word.jsp").forward(request, response);
             }
         } else if ("update".equals(action)) {
             // Cập nhật từ
             String wordIdStr = request.getParameter("wordId");
             if (wordIdStr == null) {
-                request.setAttribute("error", "ID từ không hợp lệ!");
-                request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+                session.setAttribute("errorMessage", "ID từ không hợp lệ!");
+                response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
                 return;
             }
             
@@ -144,20 +148,20 @@ public class AdminWordServlet extends HttpServlet {
                 
                 boolean success = wordDAO.updateWord(word);
                 if (success) {
-                    request.setAttribute("success", "Cập nhật từ thành công!");
-                    request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+                    session.setAttribute("successMessage", "Cập nhật từ thành công!");
+                    response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
                 } else {
                     request.setAttribute("error", "Có lỗi xảy ra khi cập nhật từ!");
                     word = wordDAO.getWordById(wordId);
                     request.setAttribute("word", word);
-                    request.getRequestDispatcher("../admin/edit-word.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/edit-word.jsp").forward(request, response);
                 }
             } catch (NumberFormatException e) {
-                request.setAttribute("error", "ID không hợp lệ!");
-                request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+                session.setAttribute("errorMessage", "ID không hợp lệ!");
+                response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
             }
         } else {
-            request.getRequestDispatcher("../admin/manage-words.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/admin/ManageWordsServlet");
         }
     }
     

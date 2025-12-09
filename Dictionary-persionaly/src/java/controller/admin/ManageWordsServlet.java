@@ -29,6 +29,19 @@ public class ManageWordsServlet extends HttpServlet {
             return;
         }
         
+        // Check for success/error messages from session (sau khi redirect từ AdminWordServlet)
+        String successMessage = (String) session.getAttribute("successMessage");
+        String errorMessage = (String) session.getAttribute("errorMessage");
+        
+        if (successMessage != null) {
+            request.setAttribute("success", successMessage);
+            session.removeAttribute("successMessage"); // Clear message sau khi hiển thị
+        }
+        if (errorMessage != null) {
+            request.setAttribute("error", errorMessage);
+            session.removeAttribute("errorMessage"); // Clear message sau khi hiển thị
+        }
+        
         WordDAO wordDAO = new WordDAO();
         String keyword = request.getParameter("keyword");
         

@@ -133,15 +133,58 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="no-suggestions">
-                        <div class="no-suggestions-icon">📝</div>
-                        <h2 style="color: #52796f; margin: 16px 0 8px;">Chưa có đề xuất nào</h2>
-                        <p style="color: #6b7280; margin-bottom: 24px;">
-                            Bạn chưa gửi đề xuất nào. Hãy đề xuất từ mới ngay!
+                    <div class="empty-state-suggestions">
+                        <div class="empty-illustration-suggestions">
+                            <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+                                <rect x="30" y="40" width="80" height="70" rx="8" fill="#f0fdf4" stroke="#2d5a3d" stroke-width="2"/>
+                                <line x1="45" y1="55" x2="95" y2="55" stroke="#2d5a3d" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="45" y1="70" x2="85" y2="70" stroke="#2d5a3d" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="45" y1="85" x2="90" y2="85" stroke="#2d5a3d" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="95" cy="95" r="20" fill="#2d5a3d"/>
+                                <path d="M85 95 L95 105 L110 80" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <h2 class="empty-title-suggestions">
+                            <c:choose>
+                                <c:when test="${not empty param.status}">
+                                    Không có đề xuất "${param.status == 'pending' ? 'chờ duyệt' : param.status == 'approved' ? 'đã chấp nhận' : 'đã từ chối'}"
+                                </c:when>
+                                <c:otherwise>
+                                    Chưa có đề xuất nào
+                                </c:otherwise>
+                            </c:choose>
+                        </h2>
+                        <p class="empty-description-suggestions">
+                            <c:choose>
+                                <c:when test="${not empty param.status}">
+                                    Bạn chưa có đề xuất nào với trạng thái này
+                                </c:when>
+                                <c:otherwise>
+                                    Bắt đầu đóng góp cho từ điển bằng cách đề xuất từ mới!
+                                </c:otherwise>
+                            </c:choose>
                         </p>
-                        <a href="${pageContext.request.contextPath}/SuggestionServlet" class="suggest-link">
-                            ➕ Đề xuất từ mới
-                        </a>
+                        <div class="empty-actions-suggestions">
+                            <a href="${pageContext.request.contextPath}/user/suggest-word.jsp" 
+                               class="btn-empty-primary-suggestions">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Đề xuất từ mới
+                            </a>
+                            <a href="${pageContext.request.contextPath}/user/dashboard.jsp" 
+                               class="btn-empty-secondary-suggestions">
+                                Về trang chủ
+                            </a>
+                        </div>
+                        <div class="empty-tips-suggestions">
+                            <p class="tips-title-suggestions">💡 Bạn có thể:</p>
+                            <ul class="tips-list-suggestions">
+                                <li>Đề xuất từ mới chưa có trong từ điển</li>
+                                <li>Sửa định nghĩa của từ đã tồn tại</li>
+                                <li>Theo dõi trạng thái đề xuất của bạn</li>
+                            </ul>
+                        </div>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -381,34 +424,123 @@
             margin-top: 12px;
         }
         
-        .no-suggestions {
+        /* Empty State for Suggestions */
+        .empty-state-suggestions {
             text-align: center;
-            padding: 48px 24px;
+            padding: 60px 24px;
             background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: 0 4px 12px rgba(45, 90, 61, 0.1);
+            border: 2px dashed rgba(45, 90, 61, 0.2);
+            animation: fadeIn 0.5s ease-out;
         }
         
-        .no-suggestions-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
+        .empty-illustration-suggestions {
+            margin: 0 auto 24px;
+            animation: float 3s ease-in-out infinite;
         }
         
-        .suggest-link {
-            display: inline-block;
-            padding: 12px 24px;
+        .empty-title-suggestions {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f4529;
+            margin-bottom: 12px;
+        }
+        
+        .empty-description-suggestions {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .empty-actions-suggestions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        
+        .btn-empty-primary-suggestions {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
             background: linear-gradient(135deg, #2d5a3d 0%, #1f4529 100%);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
             transition: all 0.3s;
             box-shadow: 0 4px 12px rgba(45, 90, 61, 0.3);
         }
         
-        .suggest-link:hover {
+        .btn-empty-primary-suggestions:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(45, 90, 61, 0.4);
+        }
+        
+        .btn-empty-secondary-suggestions {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: white;
+            color: #2d5a3d;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            border: 2px solid #2d5a3d;
+            transition: all 0.3s;
+        }
+        
+        .btn-empty-secondary-suggestions:hover {
+            background: #2d5a3d;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .empty-tips-suggestions {
+            background: rgba(45, 90, 61, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .tips-title-suggestions {
+            font-weight: 600;
+            color: #2d5a3d;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        
+        .tips-list-suggestions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .tips-list-suggestions li {
+            padding: 6px 0;
+            color: #52796f;
+            font-size: 14px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .tips-list-suggestions li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #2d5a3d;
+            font-weight: bold;
         }
         
         .back-btn {

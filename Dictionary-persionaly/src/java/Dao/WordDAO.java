@@ -51,22 +51,43 @@ public class WordDAO {
             
             while (rs.next()) {
                 Word word = new Word();
-                word.setWordId(rs.getInt("word_id"));
+                
+                // Get word_id FIRST and validate
+                int wordId = rs.getInt("word_id");
+                if (wordId <= 0) {
+                    System.err.println("⚠️ SKIPPING word with invalid ID: " + wordId + " (word: " + rs.getString("word_english") + ")");
+                    continue; // Skip this word
+                }
+                
+                word.setWordId(wordId);
                 word.setWordEnglish(rs.getString("word_english"));
                 word.setWordVietnamese(rs.getString("word_vietnamese"));
                 word.setPronunciation(rs.getString("pronunciation"));
                 word.setWordType(rs.getString("word_type"));
                 word.setExampleSentence(rs.getString("example_sentence"));
                 word.setExampleTranslation(rs.getString("example_translation"));
-                word.setCreatedBy(rs.getInt("created_by"));
+                
+                // Handle nullable created_by safely
+                if (rs.getObject("created_by") != null) {
+                    word.setCreatedBy(rs.getInt("created_by"));
+                } else {
+                    word.setCreatedBy(0); // Default value for nullable field
+                }
+                
                 word.setCreatedAt(rs.getTimestamp("created_at"));
                 word.setUpdatedAt(rs.getTimestamp("updated_at"));
+                
                 if (rs.getObject("updated_by") != null) {
                     word.setUpdatedBy(rs.getInt("updated_by"));
                 }
                 
+                // DEBUG: Log word details
+                System.out.println("✅ Found word: '" + word.getWordEnglish() + "' | ID: " + wordId + " | Valid: " + (wordId > 0) + " | Getter: " + word.getWordId());
+                
                 words.add(word);
             }
+            
+            System.out.println("📊 Total results for '" + keyword + "': " + words.size() + " word(s)");
             
         } catch (SQLException e) {
             System.err.println("Error in WordDAO.searchWord: " + e.getMessage());

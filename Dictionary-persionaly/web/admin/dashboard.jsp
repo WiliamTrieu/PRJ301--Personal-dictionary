@@ -54,6 +54,10 @@
                     </div>
                     <div class="menu-item-desc">Xử lý yêu cầu reset mật khẩu từ users</div>
                 </a>
+                <a href="${pageContext.request.contextPath}/MySavedWordsServlet" class="menu-item card-highlighted">
+                    <div class="menu-item-title">⭐ Từ điển của tôi</div>
+                    <div class="menu-item-desc">Bộ từ vựng cá nhân của bạn</div>
+                </a>
                 <a href="${pageContext.request.contextPath}/user/suggest-word.jsp" class="menu-item">
                     <div class="menu-item-title">➕ Đề xuất từ mới</div>
                     <div class="menu-item-desc">Đề xuất từ chưa có trong từ điển</div>

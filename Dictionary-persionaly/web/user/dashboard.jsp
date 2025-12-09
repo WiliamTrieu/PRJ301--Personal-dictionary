@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tra cứu từ điển - Eden Dictionary</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/autocomplete.css">
 </head>
 <body>
     <c:if test="${sessionScope.user == null}">
@@ -34,12 +35,18 @@
                        name="keyword" 
                        class="search-input" 
                        placeholder="Nhập từ tiếng Anh hoặc tiếng Việt..." 
+                       data-autocomplete="true"
+                       autocomplete="off"
                        required>
                 <button type="submit" class="search-btn">Tìm kiếm</button>
             </form>
         </div>
         
         <div class="dashboard-menu">
+            <a href="${pageContext.request.contextPath}/MySavedWordsServlet" class="menu-item card-highlighted">
+                <div class="menu-item-title">⭐ Từ điển của tôi</div>
+                <div class="menu-item-desc">Bộ từ vựng cá nhân của bạn</div>
+            </a>
             <a href="${pageContext.request.contextPath}/user/suggest-word.jsp" class="menu-item">
                 <div class="menu-item-title">➕ Đề xuất từ mới</div>
                 <div class="menu-item-desc">Đề xuất từ chưa có trong từ điển</div>
@@ -58,6 +65,9 @@
     </main>
     
     <jsp:include page="../includes/footer.jsp"/>
+    
+    <!-- Autocomplete Script -->
+    <script src="${pageContext.request.contextPath}/js/autocomplete.js"></script>
 </body>
 </html>
 

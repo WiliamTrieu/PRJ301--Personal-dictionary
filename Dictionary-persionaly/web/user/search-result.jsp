@@ -6,6 +6,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kết quả tìm kiếm - Eden Dictionary</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/autocomplete.css">
 </head>
 <body>
     <c:if test="${sessionScope.user == null}">
@@ -40,6 +42,8 @@
                            class="search-input" 
                            placeholder="Nhập từ tiếng Anh hoặc tiếng Việt..." 
                            value="${keyword}"
+                           data-autocomplete="true"
+                           autocomplete="off"
                            required>
                     <button type="submit" class="search-btn">Tìm kiếm</button>
                 </form>
@@ -56,10 +60,18 @@
                     
                     <div class="words-list">
                         <c:forEach var="word" items="${words}">
+                            <!-- DEBUG: Check word object -->
+                            <div style="display:none;">
+                                word object: ${word}
+                                wordId: ${word.wordId}
+                                wordEnglish: ${word.wordEnglish}
+                                getter test: ${word.getWordId()}
+                            </div>
+                            
                             <div class="word-card">
                                 <div class="word-header">
                                     <h2 class="word-english">${word.wordEnglish}</h2>
-                                    <c:if test="${not empty word.pronunciation}">
+                                    <c:if test="${not empty word.pronunciation and not fn:contains(word.pronunciation, '?')}">
                                         <span class="word-pronunciation">${word.pronunciation}</span>
                                     </c:if>
                                 </div>
@@ -81,8 +93,30 @@
                                     </div>
                                 </c:if>
                                 
-                                <!-- Suggest Edit Button - FIXED -->
+                                <!-- DEBUG: Check wordId value -->
+                                <!-- wordId = ${word.wordId} | wordEnglish = ${word.wordEnglish} | Valid: ${word.wordId > 0} -->
+                                
+                                <!-- Word Actions -->
                                 <div class="word-actions">
+                                    <!-- Save to My Dictionary Button -->
+                                    <c:if test="${word.wordId > 0}">
+                                        <button onclick="saveWord(${word.wordId}, this)" 
+                                                class="save-word-btn"
+                                                data-word-id="${word.wordId}">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="star-icon">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span class="save-text">Lưu vào từ điển của tôi</span>
+                                        </button>
+                                    </c:if>
+                                    
+                                    <c:if test="${word.wordId <= 0}">
+                                        <button class="save-word-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                            <span>⚠️ Invalid word ID (${word.wordId})</span>
+                                        </button>
+                                    </c:if>
+                                    
+                                    <!-- Suggest Edit Button -->
                                     <button onclick="suggestEditWord(this)" 
                                             class="edit-suggestion-btn"
                                             data-word-id="${word.wordId}"
@@ -104,16 +138,40 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="no-results">
-                        <div class="no-results-icon">🔍</div>
-                        <h2 style="color: #52796f; margin: 16px 0 8px;">Không tìm thấy kết quả</h2>
-                        <p style="color: #6b7280; margin-bottom: 24px;">
-                            Không tìm thấy từ "<strong>${keyword}</strong>" trong từ điển.
+                    <div class="empty-state">
+                        <div class="empty-illustration">
+                            <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                                <circle cx="60" cy="60" r="50" fill="#f0fdf4" stroke="#2d5a3d" stroke-width="2"/>
+                                <circle cx="45" cy="50" r="12" fill="#2d5a3d"/>
+                                <circle cx="75" cy="50" r="12" fill="#2d5a3d"/>
+                                <path d="M40 75 Q60 65 80 75" stroke="#2d5a3d" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <h2 class="empty-title">Không tìm thấy từ "${keyword}"</h2>
+                        <p class="empty-description">
+                            Từ này chưa có trong từ điển. Bạn có muốn đóng góp không?
                         </p>
-                        <a href="${pageContext.request.contextPath}/user/suggest-word.jsp?word=${keyword}" 
-                           class="suggest-link">
-                            ➕ Đề xuất thêm từ này vào từ điển
-                        </a>
+                        <div class="empty-actions">
+                            <a href="${pageContext.request.contextPath}/user/suggest-word.jsp?word=${keyword}" 
+                               class="btn-empty-primary">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Đề xuất từ này
+                            </a>
+                            <a href="${pageContext.request.contextPath}/user/dashboard.jsp" 
+                               class="btn-empty-secondary">
+                                Tìm từ khác
+                            </a>
+                        </div>
+                        <div class="empty-tips">
+                            <p class="tips-title">💡 Gợi ý:</p>
+                            <ul class="tips-list">
+                                <li>Kiểm tra chính tả của từ</li>
+                                <li>Thử tìm từ đồng nghĩa</li>
+                                <li>Tìm bằng tiếng Việt thay vì tiếng Anh</li>
+                            </ul>
+                        </div>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -221,34 +279,133 @@
             margin: 0;
         }
         
-        .no-results {
+        /* Empty State Styles */
+        .empty-state {
             text-align: center;
-            padding: 48px 24px;
+            padding: 60px 24px;
             background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: 0 4px 12px rgba(45, 90, 61, 0.1);
+            border: 2px dashed rgba(45, 90, 61, 0.2);
+            animation: fadeIn 0.5s ease-out;
         }
         
-        .no-results-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .suggest-link {
-            display: inline-block;
-            padding: 12px 24px;
+        .empty-illustration {
+            margin: 0 auto 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .empty-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f4529;
+            margin-bottom: 12px;
+        }
+        
+        .empty-description {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .empty-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        
+        .btn-empty-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
             background: linear-gradient(135deg, #2d5a3d 0%, #1f4529 100%);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
             transition: all 0.3s;
             box-shadow: 0 4px 12px rgba(45, 90, 61, 0.3);
         }
         
-        .suggest-link:hover {
+        .btn-empty-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(45, 90, 61, 0.4);
+        }
+        
+        .btn-empty-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: white;
+            color: #2d5a3d;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            border: 2px solid #2d5a3d;
+            transition: all 0.3s;
+        }
+        
+        .btn-empty-secondary:hover {
+            background: #2d5a3d;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .empty-tips {
+            background: rgba(45, 90, 61, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .tips-title {
+            font-weight: 600;
+            color: #2d5a3d;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .tips-list li {
+            padding: 6px 0;
+            color: #52796f;
+            font-size: 14px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .tips-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #2d5a3d;
+            font-weight: bold;
         }
         
         .back-btn {
@@ -274,7 +431,9 @@
             padding-top: 16px;
             border-top: 1px solid rgba(45, 90, 61, 0.1);
             display: flex;
+            gap: 12px;
             justify-content: flex-end;
+            flex-wrap: wrap;
         }
         
         .edit-suggestion-btn {
@@ -301,9 +460,210 @@
         .edit-suggestion-btn:active {
             transform: translateY(0);
         }
+        
+        /* Save Word Button */
+        .save-word-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .save-word-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+        
+        .save-word-btn:active {
+            transform: translateY(0);
+        }
+        
+        .save-word-btn.saved {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        .save-word-btn.saved:hover {
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+        }
+        
+        .star-icon {
+            transition: transform 0.3s;
+        }
+        
+        .save-word-btn:hover .star-icon {
+            transform: scale(1.2) rotate(15deg);
+        }
+        
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 90px;
+            right: 24px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.3s ease-out;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .toast-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .toast-info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+        
+        .toast-error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .word-actions {
+                justify-content: center;
+            }
+            
+            .toast {
+                right: 16px;
+                left: 16px;
+                top: 80px;
+            }
+        }
     </style>
     
     <script>
+        // Context path for AJAX calls
+        const contextPath = '${pageContext.request.contextPath}';
+        
+        // Save word to My Dictionary
+        async function saveWord(wordId, button) {
+            try {
+                // Get wordId from data attribute (most reliable)
+                const dataWordId = button.getAttribute('data-word-id');
+                const finalId = dataWordId || wordId;
+                
+                console.log('saveWord called - wordId:', wordId, 'dataWordId:', dataWordId, 'finalId:', finalId);
+                
+                // Validate
+                if (!finalId || isNaN(Number(finalId)) || Number(finalId) <= 0) {
+                    console.error('Invalid wordId:', finalId);
+                    showNotification('Invalid word ID', 'error');
+                    return;
+                }
+                
+                const response = await fetch(contextPath + '/SaveWordServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'action=save&wordId=' + finalId
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Update button UI
+                    button.classList.add('saved');
+                    button.querySelector('.save-text').textContent = 'Đã lưu ⭐';
+                    button.querySelector('.star-icon path').setAttribute('fill', 'currentColor');
+                    
+                    // Change to unsave action
+                    button.setAttribute('onclick', 'unsaveWord(' + finalId + ', this)');
+                    
+                    // Show success message
+                    showNotification(result.message, 'success');
+                } else {
+                    showNotification(result.message, 'info');
+                }
+            } catch (error) {
+                console.error('Error saving word:', error);
+                showNotification('Không thể lưu từ. Vui lòng thử lại.', 'error');
+            }
+        }
+        
+        // Unsave word from My Dictionary
+        async function unsaveWord(wordId, button) {
+            try {
+                // Get wordId from data attribute (most reliable)
+                const dataWordId = button.getAttribute('data-word-id');
+                const finalId = dataWordId || wordId;
+                
+                console.log('unsaveWord called - finalId:', finalId);
+                
+                if (!finalId || isNaN(Number(finalId)) || Number(finalId) <= 0) {
+                    console.error('Invalid wordId:', finalId);
+                    showNotification('Invalid word ID', 'error');
+                    return;
+                }
+                
+                const response = await fetch(contextPath + '/SaveWordServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'action=unsave&wordId=' + finalId
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Update button UI
+                    button.classList.remove('saved');
+                    button.querySelector('.save-text').textContent = 'Lưu vào từ điển của tôi';
+                    button.querySelector('.star-icon path').setAttribute('fill', 'none');
+                    
+                    // Change back to save action
+                    button.setAttribute('onclick', 'saveWord(' + finalId + ', this)');
+                    
+                    // Show success message
+                    showNotification(result.message, 'info');
+                }
+            } catch (error) {
+                console.error('Error unsaving word:', error);
+                showNotification('Không thể xóa từ. Vui lòng thử lại.', 'error');
+            }
+        }
+        
+        // Show notification toast
+        function showNotification(message, type) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            // Hide and remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
         function suggestEditWord(button) {
             // Get data from button attributes (safer method - no escaping issues)
             const wordId = button.getAttribute('data-word-id');
@@ -329,6 +689,9 @@
             window.location.href = '${pageContext.request.contextPath}/user/suggest-edit.jsp?' + params.toString();
         }
     </script>
+    
+    <!-- Autocomplete Script -->
+    <script src="${pageContext.request.contextPath}/js/autocomplete.js"></script>
 </body>
 </html>
 
