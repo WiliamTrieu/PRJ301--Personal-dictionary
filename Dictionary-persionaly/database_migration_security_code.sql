@@ -129,3 +129,5 @@ PRINT 'ℹ️ Sample test data inserted';
 */
 GO
 
+SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_NAME = 'Users' AND COLUMN_NAME = 'security_code_hash';

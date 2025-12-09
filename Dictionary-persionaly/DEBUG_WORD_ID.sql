@@ -83,3 +83,5 @@ VALUES
 SELECT word_id, word_english FROM Dictionary WHERE word_english = 'admit';
 -- Should show: word_id = (some positive number)
 
+SELECT COUNT(*) FROM Dictionary;SELECT word_id, word_english FROM Dictionary 
+WHERE word_english = 'admit';

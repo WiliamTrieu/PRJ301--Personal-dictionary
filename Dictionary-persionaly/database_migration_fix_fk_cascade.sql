@@ -134,3 +134,9 @@ PRINT '3. Verify: WordSuggestions updated correctly';
 PRINT '';
 GO
 
+SELECT 
+    fk.name AS [Constraint],
+    fk.delete_referential_action_desc AS [On Delete],
+    fk.update_referential_action_desc AS [On Update]
+FROM sys.foreign_keys AS fk
+WHERE fk.name = 'FK_WordSuggestions_Dictionary';

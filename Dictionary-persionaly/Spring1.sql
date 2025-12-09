@@ -274,3 +274,17 @@ GO
 PRINT N'';
 PRINT N'✓ Script hoàn tất!';
 GO
+
+USE Spring1;
+GO
+
+ALTER TABLE Users
+ADD security_code_hash VARCHAR(255) NULL;
+GO
+
+-- Verify
+SELECT COLUMN_NAME, DATA_TYPE 
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_NAME = 'Users' AND COLUMN_NAME = 'security_code_hash';
+GO
+```

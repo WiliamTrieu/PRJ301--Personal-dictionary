@@ -195,3 +195,19 @@ PRINT '   - Daily Conversation: 35 words';
 PRINT '   TOTAL: 150 words';
 GO
 
+-- 1. Check if "enhance" has word_id
+SELECT word_id, word_english FROM Dictionary 
+WHERE word_english = 'enhance';
+
+-- Nếu word_id = NULL hoặc không tìm thấy:
+-- 2. Insert "enhance" manually:
+INSERT INTO Dictionary (word_english, word_vietnamese, pronunciation, word_type, 
+                        example_sentence, example_translation)
+VALUES ('enhance', N'nâng cao, tăng cường', '/ɪnˈhɑːns/', 'verb',
+        'This will enhance your skills.',
+        N'Điều này sẽ nâng cao kỹ năng của bạn.');
+
+-- 3. Verify again:
+SELECT word_id, word_english FROM Dictionary 
+WHERE word_english = 'enhance';
+-- Now should see word_id with a number!

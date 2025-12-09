@@ -52,6 +52,80 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
         
+        /* Twinkling Stars Effect */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+        
+        .star.large {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.3);
+        }
+        
+        .star.medium {
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Shooting star effect */
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+            opacity: 0;
+            animation: shoot 3s ease-out infinite;
+            transform: rotate(-45deg);
+        }
+        
+        @keyframes shoot {
+            0% {
+                opacity: 0;
+                transform: translateX(0) translateY(0) rotate(-45deg);
+            }
+            5% {
+                opacity: 1;
+            }
+            20% {
+                opacity: 0;
+                transform: translateX(300px) translateY(300px) rotate(-45deg);
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
         /* Header */
         .header {
             position: fixed;
@@ -677,6 +751,9 @@
     <!-- Noise Overlay -->
     <div class="noise-overlay"></div>
     
+    <!-- Twinkling Stars -->
+    <div class="stars-container" id="starsContainer"></div>
+    
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-content">
@@ -975,6 +1052,46 @@
                 }
             });
         });
+        
+        // ==========================================
+        // 4. TWINKLING STARS EFFECT
+        // ==========================================
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const numberOfStars = 80; // Số lượng sao
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size
+                const sizeClass = Math.random() > 0.7 ? 'large' : (Math.random() > 0.5 ? 'medium' : '');
+                if (sizeClass) star.classList.add(sizeClass);
+                
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // Random animation timing
+                star.style.setProperty('--duration', (2 + Math.random() * 3) + 's');
+                star.style.setProperty('--delay', Math.random() * 5 + 's');
+                
+                container.appendChild(star);
+            }
+            
+            // Add shooting stars
+            for (let i = 0; i < 3; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.left = (20 + Math.random() * 60) + '%';
+                shootingStar.style.top = (10 + Math.random() * 30) + '%';
+                shootingStar.style.animationDelay = (i * 5 + Math.random() * 3) + 's';
+                container.appendChild(shootingStar);
+            }
+        }
+        
+        // Create stars on page load
+        createStars();
     </script>
 </body>
 </html>

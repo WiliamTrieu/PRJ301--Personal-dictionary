@@ -44,3 +44,13 @@ ORDER BY word_english;
 -- word_id > 0  ✅
 -- created_by = 1  ✅
 
+-- Run trong SSMS:
+UPDATE Dictionary
+SET created_by = 1
+WHERE created_by IS NULL OR created_by = 0;
+
+-- Verify:
+SELECT word_id, word_english, created_by
+FROM Dictionary
+WHERE word_english = 'checkout';
+-- Should see: created_by = 1

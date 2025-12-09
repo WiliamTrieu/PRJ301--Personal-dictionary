@@ -96,3 +96,9 @@ VALUES ('enhance', N'nâng cao, tăng cường', '/ɪnˈhɑːns/', 'verb',
 -- Execute: database_150_words_insert.sql
 -- This will give you 150 quality words with proper word_id
 
+-- Run in SQL Server:
+Execute: database_150_words_insert.sql
+
+-- Then verify:
+SELECT word_id, word_english FROM Dictionary WHERE word_english = 'enhance';
+-- Should see: word_id = some number (not NULL)

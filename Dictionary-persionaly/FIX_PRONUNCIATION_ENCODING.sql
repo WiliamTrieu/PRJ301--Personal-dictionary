@@ -29,3 +29,9 @@ FROM Dictionary
 WHERE word_english IN ('depreciation', 'admit', 'enhance', 'checkout')
 ORDER BY word_english;
 
+-- FIX_PRONUNCIATION_ENCODING.sql
+
+-- Dùng N prefix cho Unicode
+UPDATE Dictionary SET pronunciation = N'/dɪˌpriːʃiˈeɪʃn/' WHERE word_english = 'depreciation';
+UPDATE Dictionary SET pronunciation = N'/ədˈmɪt/' WHERE word_english = 'admit';
+-- ... etc

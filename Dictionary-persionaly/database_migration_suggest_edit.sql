@@ -134,4 +134,3 @@ PRINT '   - suggestion_type = ''edit'': User suggests EDIT to existing word';
 PRINT '   - original_word_id: ID of the original word (for ''edit'' type)';
 PRINT '========================================';
 GO
-
